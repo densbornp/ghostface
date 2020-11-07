@@ -17,6 +17,9 @@ bower_components/
 # IDEs and editors
 .idea/
 
+# Upload folder
+uploads/*
+
 # misc
 .sass-cache/
 connect.lock/
