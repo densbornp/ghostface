@@ -1,4 +1,4 @@
-<header id="header">
+<header id="header" (scroll)="onWindowScroll($event);">
   <div class="container d-flex">
     <div class="logo mr-auto">
       <h1 class="text-light">
@@ -8,10 +8,38 @@
 
     <nav class="nav-menu d-none d-lg-block">
       <ul>
-        <li id="nav-hero" class="active"><a routerLink="" (click)="scrollToElement('hero')">Home</a></li>
-        <li id="nav-info"><a routerLink="" (click)="scrollToElement('info')">Info</a></li>
-        <li id="nav-conversion"><a routerLink="" (click)="scrollToElement('conversion')">Convert image</a></li>
-        <li id="nav-contact"><a routerLink="" (click)="scrollToElement('contact')">Contact us</a></li>
+        <li id="nav-hero" class="active">
+          <a
+            [routerLink]="homePath"
+            fragment="hero"
+            (click)="selectMenuEntry('hero')"
+            >Home</a
+          >
+        </li>
+        <li id="nav-info">
+          <a
+            [routerLink]="homePath"
+            fragment="info"
+            (click)="selectMenuEntry('info')"
+            >Info</a
+          >
+        </li>
+        <li id="nav-conversion">
+          <a
+            [routerLink]="homePath"
+            fragment="conversion"
+            (click)="selectMenuEntry('conversion')"
+            >Convert image</a
+          >
+        </li>
+        <li id="nav-contact">
+          <a
+            [routerLink]="homePath"
+            fragment="contact"
+            (click)="selectMenuEntry('contact')"
+            >Contact us</a
+          >
+        </li>
       </ul>
     </nav>
     <!-- .nav-menu -->
