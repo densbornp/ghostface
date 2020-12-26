@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dsecsoftware.ghostface.ParamHelper;
-import com.dsecsoftware.ghostface.PathManager;
 import com.dsecsoftware.ghostface.services.CookieService;
 import com.dsecsoftware.ghostface.services.StorageService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class StorageController {
 
     private StorageService storageService;
@@ -39,7 +40,7 @@ public class StorageController {
             }
             // Check if uplaoded file is image
             if (ImageIO.read(file.getInputStream()) != null) {
-                this.storageService.store(request, file);
+                this.storageService.storeImage(request, file);
             } else {
                 return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                         .body("The uploaded file is not an image!");
@@ -55,7 +56,15 @@ public class StorageController {
         if (request.getCookies() == null && request.getCookies()[0].getValue().equals(CookieService.COOKIE_NAME)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cookie missing!");
         }
-        return this.storageService.download(request, response, PathManager.FILE_RESISTANT);
+        return this.storageService.download(request, response);
+    }
+
+    @GetMapping("/image")
+    public ResponseEntity<Object> getImage(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getCookies() == null && request.getCookies()[0].getValue().equals(CookieService.COOKIE_NAME)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cookie missing!");
+        }
+        return this.storageService.getImage(request, response);
     }
 
 }

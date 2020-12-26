@@ -26,6 +26,7 @@
           enctype="multipart/form-data"
           name="uploadForm"
           id="uploadForm"
+          (change)="uploadImage($event)"
         >
           <div class="input-group">
             <div class="custom-file">
@@ -37,7 +38,7 @@
                 id="inputFile"
               />
               <label class="custom-file-label" for="inputFile"
-                >Choose file</label
+                >{{choosenFile}}</label
               >
             </div>
           </div>
