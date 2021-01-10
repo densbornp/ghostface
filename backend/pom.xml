@@ -49,8 +49,8 @@
  </dependencies>
 	<build>
 		<plugins>
-			<plugin>
-                <groupId>de.hochschule-trier.de</groupId>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <executions>
@@ -62,12 +62,34 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>ng</executable>
                     <workingDirectory>../frontend</workingDirectory>
+                    <executable>ng</executable>
                     <arguments>
                         <argument>build</argument>
+                        <argument>--prod</argument>
                     </arguments>
                 </configuration>
+            </plugin>
+			<plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/resources/public/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/../frontend/public</directory>
+                                </resource>
+                            </resources>
+                            <executable>ng</executable>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
 				<groupId>org.springframework.boot</groupId>
