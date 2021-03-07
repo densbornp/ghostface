@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AppController {
 
-    @GetMapping({ "/faq", "/policy", "/error" })
+    @GetMapping({ "/faq", "/policy" })
     public String index() {
         return "forward:/";
     }

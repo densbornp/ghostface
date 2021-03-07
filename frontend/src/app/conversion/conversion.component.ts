@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ConversionService } from '../services/conversion.service';
 
@@ -11,37 +11,42 @@ export class ConversionComponent implements OnInit {
 
   choosenFile: string;
   infoText: string;
+  INFO_FINISHED: "Finished!";
+  INFO_DOWNLOAD: "Download successful!";
+  INFO_UPLOAD: "Upload successful!";
+  downloadBtnDisabled = true;
 
   constructor(private conversionService: ConversionService) { }
 
   ngOnInit(): void {
       this.choosenFile = "Choose file";
-      this.infoText = "";
+      this.infoText = null;
   }
 
   public uploadImage(event: any) {
     let uploadedFile = event.srcElement.files[0];
     this.choosenFile = uploadedFile.name;
-    const params = new HttpParams().set("imageFile", uploadedFile); // Set http params
-    this.conversionService.uploadFile(params).subscribe((data: any) => {
-        this.infoText = "Upload successful!";
-    }, (error: any) => {
+    let formData = new FormData();
+    formData.append("imageFile", uploadedFile);
+    // TODO subscribe gets not triggered
+    this.conversionService.uploadFile(formData).subscribe((data: any) => {}, (error: any) => {
         if (error.value().includes("Cookie missing!")) {
             alert("Please accept Cookies to use the image convertion function.");
         } else {
             alert("Upload failed: " + error.value());
         }
-        this.infoText = "";
+        this.infoText = null;
+    }, () => {
+        this.downloadBtnDisabled = false;
+        this.infoText = this.INFO_UPLOAD;
     });
   }
 
   public downloadImage(event: any) {
-    this.conversionService.downloadFile().subscribe((data: any) => {
-        this.infoText = "Download successful!";
-    }, (error: any) => {
+    this.conversionService.downloadFile().subscribe((data: any) => {}, (error: any) => {
         alert("Download ended with an error: " + error.value());
-        this.infoText = "";
-    });
+        this.infoText = null;
+    }, () => {this.infoText = this.INFO_DOWNLOAD;});
   }
 
   // File appears on select

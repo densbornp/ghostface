@@ -73,16 +73,16 @@
               id="btn-download"
               type="submit"
               style="float: left;"
-              disabled
+              [disabled]="downloadBtnDisabled"
             >
               <i class="fa fa-download"></i> Download
             </button>
             <input type="hidden" name="image" class="imageName" />
           </form>
-          <label
+          <label *ngIf="infoText"
             id="status-label"
             style="color: crimson; margin-left: 10px; text-align: center;"
-            >Finished!</label
+            >{{infoText}}</label
           >
         </div>
         <br />

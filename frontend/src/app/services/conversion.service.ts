@@ -9,8 +9,8 @@ export class ConversionService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(data: any): Observable<Object> {
-    return this.http.post("/upload", { params: data });
+  uploadFile(formData: any): Observable<Object> {
+    return this.http.post("/upload", formData);
   }
 
   downloadFile(): Observable<Object> {
