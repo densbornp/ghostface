@@ -1,6 +1,7 @@
 package com.dsecsoftware.ghostface.services;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -26,8 +28,8 @@ public class StorageService {
         new File(PathManager.UPLOAD_DIR).mkdir(); // Create uploads folder
     }
 
-    public ResponseEntity<Object> storeImage(HttpServletRequest request, MultipartFile file) {
-        File dir = new File(PathManager.UPLOAD_DIR, request.getCookies()[0].getValue());
+    public ResponseEntity<Object> storeImage(String cookie, MultipartFile file) {
+        File dir = new File(PathManager.UPLOAD_DIR, cookie);
         if (dir.exists()) {
             dir.delete();
         }
@@ -44,16 +46,15 @@ public class StorageService {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not write file!");
     }
 
-    public ResponseEntity<Object> download(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Object> download(String cookie, HttpServletResponse response) {
         try {
-            String cookie = request.getCookies()[0].getValue();
             File searchedFile = findFile(cookie, PathManager.FILE_RESISTANT);
+            if (searchedFile == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+            }
             String name = searchedFile.getName();
             Path filePath = searchedFile.toPath();
             byte[] fileBytes = Files.readAllBytes(filePath);
-            if (name == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
-            }
             response.setHeader("Content-Disposition", "attachment; filename=" + name);
             response.setContentLength(fileBytes.length);
             response.getOutputStream().write(fileBytes);
@@ -62,17 +63,16 @@ public class StorageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected download error occurred!");
     }
 
-    public ResponseEntity<Object> getImage(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Object> getImage(String cookie, HttpServletRequest request, HttpServletResponse response) {
         try {
-            String cookie = request.getCookies()[0].getValue();
-            File dir = new File(PathManager.UPLOAD_DIR, cookie);
             File originalImage = findFile(cookie, PathManager.FILE_ORIGINAL);
-            String extension = getExtension(originalImage.getName());
-            String filePath = dir + File.separator + originalImage + extension;
-            InputStream in = request.getServletContext().getResourceAsStream(filePath);
+            if (originalImage == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+            }
+            InputStream in = new FileInputStream(ResourceUtils.getFile(originalImage.getPath()));
             byte[] media = in.readAllBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
@@ -83,14 +83,14 @@ public class StorageService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
     }
 
-    public ResponseEntity<Object> getTmpConvertedImage(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Object> getTmpConvertedImage(String cookie, HttpServletRequest request,
+            HttpServletResponse response) {
         try {
-            String cookie = request.getCookies()[0].getValue();
-            File dir = new File(PathManager.UPLOAD_DIR, cookie);
             File tmpConvertedImage = findFile(cookie, PathManager.FILE_TEMP);
-            String extension = getExtension(tmpConvertedImage.getName());
-            String filePath = dir + File.separator + tmpConvertedImage + extension;
-            InputStream in = request.getServletContext().getResourceAsStream(filePath);
+            if (tmpConvertedImage == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+            }
+            InputStream in = new FileInputStream(ResourceUtils.getFile(tmpConvertedImage.getPath()));
             byte[] media = in.readAllBytes();
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
