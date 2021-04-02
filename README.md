@@ -1,3 +1,2 @@
-# GhostFace
-
-This is GhostFace, a website where user can upload images of their faces and get face detection resistant images back.
+# bachelor
+This is the bachelor project. It's all about opencv and python (face detection and data security)
