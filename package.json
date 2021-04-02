@@ -1,0 +1,26 @@
+{
+  "name": "de.hochschule-trier",
+  "version": "0.1.0",
+  "description": "Bachelor project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Philip Densborn",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "cookie-parser": "^1.4.5",
+    "cookies-eu-banner": "^2.0.1",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "express-session": "^1.17.1",
+    "find-remove": "^2.0.1",
+    "js-cookie": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0"
+  }
+}
