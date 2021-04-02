@@ -109,22 +109,6 @@
     $(this).find('.btn-get-started').addClass('animated fadeInUp');
   });
 
-  // Back to top button
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
-    } else {
-      $('.back-to-top').fadeOut('slow');
-    }
-  });
-
-  $('.back-to-top').click(function() {
-    $('html, body').animate({
-      scrollTop: 0
-    }, 1500, 'easeInOutExpo');
-    return false;
-  });
-
   // Skills section
   $('.skills-content').waypoint(function() {
     $('.progress .progress-bar').each(function() {
@@ -140,7 +124,7 @@
     time: 1000
   });
 
-  // Porfolio isotope and filter
+  // Conversion isotope and filter
   $(window).on('load', function() {
     var portfolioIsotope = $('.portfolio-container').isotope({
       itemSelector: '.portfolio-item',
@@ -156,7 +140,7 @@
       });
     });
 
-    // Initiate venobox (lightbox feature used in portofilo)
+    // Initiate venobox (lightbox feature used in conversion section)
     $(document).ready(function() {
       $('.venobox').venobox();
     });

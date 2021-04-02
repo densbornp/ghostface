@@ -1,26 +1,69 @@
+
+/*
+  BSD 3-Clause License
+
+  Copyright (c) 2020, Philip Densborn
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+     list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived from
+     this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 const express = require("express");
 const app = express();
+const https = require("https");
+const http = require("http");
 const fs = require("fs");
-const port = 9000;
 var path = require("path");
 var rmdir = require('rimraf');
+var key = fs.readFileSync(
+  __dirname + path.sep + "public" + path.sep + "certs" + path.sep + "selfsigned.key"
+);
+var cert = fs.readFileSync(
+  __dirname + path.sep + "public" + path.sep + "certs" + path.sep + "selfsigned.crt"
+);
+var options = {
+  key: key,
+  cert: cert,
+};
 const fileUpload = require("express-fileupload");
 var public = path.join(__dirname, "/public");
 var cookieParser = require("cookie-parser");
-const { Session } = require("inspector");
-const { nextTick } = require("process");
 const spawn = require("child_process").spawn;
 
 // cookieParser to work with cookies
 app.use(cookieParser());
 
+// Use static HTML files
 app.use(express.static(public));
+
 app.use(fileUpload());
 // Hide field for security puposes
 app.disable("x-powered-by");
 
 /**
- * Deletes all files from the "uploads" folder
+ * Deletes all folders from the "uploads" folder
  * periodically after 1/2 hour
  */
 function deleteContent() {
@@ -35,7 +78,7 @@ function deleteContent() {
         }
         now = new Date().getTime();
         endTime = new Date(stat.ctime).getTime() + 1800000; // 30 min.
-        if (now > endTime) {
+        if (now > endTime) { // Check if folder is older than 30 min and delete it
           rmdir(path.join(directoryUploads, file), (err) => {
             if (err) {
               console.error(err);
@@ -49,6 +92,7 @@ function deleteContent() {
   });
 }
 
+// Searches the correct folder with the image files
 async function findFile(req, res) {
   try {
     cookie = req.cookies["user_session"];
@@ -109,6 +153,7 @@ setInterval(function () {
   deleteContent();
 }, 300000); // 5min.
 
+// Saves the uploaded file
 async function uploadEntryPoint(req, res) {
   try {
     if (!req.files) {
@@ -140,6 +185,7 @@ async function uploadEntryPoint(req, res) {
         "Executing python script (opencv_face_detection.py) with method: haar..."
       );
 
+      // Call python process
       const pythonProcess = spawn("python3", [
         "public/python/opencv_face_detection.py",
         "-m",
@@ -152,16 +198,18 @@ async function uploadEntryPoint(req, res) {
         req.cookies["user_session"] + "/resistant" + filetype,
       ]);
 
+      // Listen to python script output
       pythonProcess.stdout.on("data", function (data) {
         dataString = data.toString();
         console.log(dataString);
-        if (dataString.includes("Script finished")) {
+        if (dataString.includes("Script finished")) { // Script successfully finished
           res.status(200).contentType("text/plain").end("File uploaded!");
           pythonProcess.kill();
           console.log("Execution finished\n");
         }
       });
 
+      // Listen on python script error output
       pythonProcess.stderr.on("data", (data) => {
         console.log("Error: " + data);
       });
@@ -172,6 +220,7 @@ async function uploadEntryPoint(req, res) {
   }
 }
 
+// Adds a black or white grid to the image
 async function convertWithGrid(req, res) {
   try {
     imageName = req.body.imageName;
@@ -198,6 +247,8 @@ async function convertWithGrid(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_grid.py",
       "-m",
@@ -216,16 +267,18 @@ async function convertWithGrid(req, res) {
       req.body.options,
     ]);
 
+    // Listen to python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -235,6 +288,7 @@ async function convertWithGrid(req, res) {
   }
 }
 
+// Only shows the edges on the image
 async function convertEdges(req, res) {
   try {
     imageName = req.body.imageName;
@@ -261,6 +315,8 @@ async function convertEdges(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_edges.py",
       "-m",
@@ -277,16 +333,18 @@ async function convertEdges(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen to python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -296,6 +354,7 @@ async function convertEdges(req, res) {
   }
 }
 
+// Shows the detected faces of a normal, not modified image
 async function normalDetection(req, res) {
   try {
     imageName = req.body.imageName;
@@ -322,6 +381,8 @@ async function normalDetection(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_face_detection.py",
       "-m",
@@ -338,16 +399,18 @@ async function normalDetection(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -357,6 +420,7 @@ async function normalDetection(req, res) {
   }
 }
 
+// Converts the BGR color space of the image to HSV
 async function convertHSV(req, res) {
   try {
     imageName = req.body.imageName;
@@ -383,6 +447,8 @@ async function convertHSV(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_hsvColor.py",
       "-m",
@@ -399,16 +465,18 @@ async function convertHSV(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -418,6 +486,7 @@ async function convertHSV(req, res) {
   }
 }
 
+// Inverts the colors of an image
 async function convertBitwiseNot(req, res) {
   try {
     imageName = req.body.imageName;
@@ -444,6 +513,8 @@ async function convertBitwiseNot(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_bitwise_not.py",
       "-m",
@@ -460,16 +531,18 @@ async function convertBitwiseNot(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -479,6 +552,7 @@ async function convertBitwiseNot(req, res) {
   }
 }
 
+// Inverts the colors of a grayscale image
 async function convertBitwiseNotGrayscale(req, res) {
   try {
     imageName = req.body.imageName;
@@ -505,6 +579,8 @@ async function convertBitwiseNotGrayscale(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_bitwise_not_gray.py",
       "-m",
@@ -521,16 +597,18 @@ async function convertBitwiseNotGrayscale(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -540,6 +618,7 @@ async function convertBitwiseNotGrayscale(req, res) {
   }
 }
 
+// Cartoonizes an image
 async function convertCartoon(req, res) {
   try {
     imageName = req.body.imageName;
@@ -566,6 +645,8 @@ async function convertCartoon(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_cartoon.py",
       "-m",
@@ -582,16 +663,18 @@ async function convertCartoon(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -601,6 +684,7 @@ async function convertCartoon(req, res) {
   }
 }
 
+// Hides the lower half of an image with a bit of transparency
 async function convertHideHalf(req, res) {
   try {
     imageName = req.body.imageName;
@@ -627,6 +711,8 @@ async function convertHideHalf(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_hide_half.py",
       "-m",
@@ -643,10 +729,11 @@ async function convertHideHalf(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         console.log("Status 200 send");
         pythonProcess.kill();
@@ -654,6 +741,7 @@ async function convertHideHalf(req, res) {
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -663,6 +751,7 @@ async function convertHideHalf(req, res) {
   }
 }
 
+// Converts white pixels to black pixels and highlights them
 async function convertColorHighlighting(req, res) {
   try {
     imageName = req.body.imageName;
@@ -689,6 +778,8 @@ async function convertColorHighlighting(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_color_highlighting.py",
       "-m",
@@ -705,16 +796,18 @@ async function convertColorHighlighting(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -724,6 +817,7 @@ async function convertColorHighlighting(req, res) {
   }
 }
 
+// Removes the red and green channels of an image
 async function convertBlueFilter(req, res) {
   try {
     imageName = req.body.imageName;
@@ -750,6 +844,8 @@ async function convertBlueFilter(req, res) {
         req.body.cascade_options +
         "..."
     );
+
+    // Call python process
     const pythonProcess = spawn("python3", [
       "public/python/opencv_blue_filter.py",
       "-m",
@@ -766,16 +862,18 @@ async function convertBlueFilter(req, res) {
       req.body.scaleFactor,
     ]);
 
+    // Listen on python script output
     pythonProcess.stdout.on("data", function (data) {
       dataString = data.toString();
       console.log(dataString);
-      if (dataString.includes("Script finished")) {
+      if (dataString.includes("Script finished")) { // Script successfully finished
         res.status(200).contentType("text/plain").end("File uploaded!");
         pythonProcess.kill();
         console.log("Execution finished\n");
       }
     });
 
+    // Listen on python script error output
     pythonProcess.stderr.on("data", (data) => {
       console.log("Error: " + data);
     });
@@ -785,6 +883,9 @@ async function convertBlueFilter(req, res) {
   }
 }
 
+/**
+ * Handles the cookie requests
+ */
 app.post("/cookie", (req, res) => {
   // check if client sent cookie
   var cookie = req.cookies.user_session;
@@ -793,7 +894,7 @@ app.post("/cookie", (req, res) => {
     var randomNumber = Math.random().toString(16).substring(2);
     var cookieValue = Buffer.from(randomNumber).toString("base64");
     res.cookie("user_session", cookieValue, {
-      
+      secure: true
     });
     console.log("cookie created successfully");
     res.send("Cookie set");
@@ -803,10 +904,16 @@ app.post("/cookie", (req, res) => {
   }
 });
 
+/**
+ * Handles the upload request
+ */
 app.post("/upload", async (req, res) => {
   uploadEntryPoint(req, res);
 });
 
+/**
+ * Handles the conversion requests
+ */
 app.post("/convert", async (req, res) => {
   var option = req.body.options;
 
@@ -833,10 +940,23 @@ app.post("/convert", async (req, res) => {
   }
 });
 
+/**
+ * Handles the download requests
+ */
 app.get("/download", (req, res) => {
   findFile(req, res);
 });
 
-app.listen(port, '0.0.0.0', (req, res) => {
-  console.log(`Server listening on port ${port}...`);
+// HTTP server which listens on port 3000. Redirects to HTTPS on port 3443
+var httpServer = http.createServer((req, res) => {
+  res.writeHead(301, {"Location": "http://" + req.headers["host"].replace(3000,3443) + req.url});
+  res.end();
+}).listen(3000);
+
+// Create the HTTPS server
+var server = https.createServer(options, app);
+
+// Listen on port 3443
+server.listen(3443, (req, res) => {
+  console.log("Server listening on port 3443...");
 });

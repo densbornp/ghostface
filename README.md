@@ -9,10 +9,11 @@ After the installation of Node.js you simply open the project folder in a consol
 With the command: <b>npm install</b> install all necessary libraries.
 
 To start the server enter following command from the root directory of the project: <b>node app.js</b>
+The server should than run on port 3443.
+You can open the webiste by entering <b>localhost:3443</b> or <b>localhost:3000</b> into your browsers URL input field.
 
 ## General information
 
 To use the Python scripts it is important that you have installed Pyhton 3.
 The scripts get called with the command <b>python3</b>.
 Version 2 of Python is not supported !
-
