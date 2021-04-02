@@ -17,3 +17,5 @@ You can open the webiste by entering <b>localhost:3443</b> or <b>localhost:3000<
 To use the Python scripts it is important that you have installed Pyhton 3.
 The scripts get called with the command <b>python3</b>.
 Version 2 of Python is not supported !
+
+## This version of the project is not supported anymore and will not receive any further updates !!!
