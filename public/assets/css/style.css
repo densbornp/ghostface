@@ -552,7 +552,10 @@ tr:nth-child(even) {
 # Coookie consent
 --------------------------------------------------------------*/
 
-/*Cookie Consent Begin*/
+/* 
+  Übernommen von https://html-online.com/articles/cookie-consent-warning-strap-website/
+*/
+
 #cookieConsent {
   background-color: rgba(20, 20, 20, 0.8);
   min-height: 26px;
@@ -568,6 +571,7 @@ tr:nth-child(even) {
   display: none;
   z-index: 9999;
 }
+
 #cookieConsent a {
   color: #4b8ee7;
   text-decoration: none;
@@ -583,6 +587,7 @@ tr:nth-child(even) {
   float: right;
   margin: 0 60px 0 10px;
 }
+
 #cookieConsent a.cookieConsentOK:hover {
   background-color: #e0c91f;
 }

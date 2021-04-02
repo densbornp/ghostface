@@ -1,3 +1,35 @@
+'''
+    BSD 3-Clause License
+
+    Copyright (c) 2020, Philip Densborn
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+
+    1. Redistributions of source code must retain the above copyright notice, this
+       list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright notice,
+       this list of conditions and the following disclaimer in the documentation
+       and/or other materials provided with the distribution.
+
+    3. Neither the name of the copyright holder nor the names of its
+       contributors may be used to endorse or promote products derived from
+       this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'''
+
 # import the necessary packages
 import numpy as np
 import argparse
@@ -7,7 +39,7 @@ import os
 import math
 
 
-# construct the argument parse and parse the arguments
+# Create the arguments
 def init_arguments():
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--image", required=True,
@@ -26,14 +58,12 @@ def init_arguments():
                     help="color of grid")
     return vars(ap.parse_args())
 
-
-# TODO crash when using blackgrid and minNeighbors=0
 def load_image():
     faceDiagonalList = []
     print("[INFO] loading model...")
     img = cv.imread(args["image"])
 
-    # Create the haar cascade
+    # Load haar cascade
     faceCascade = cv.CascadeClassifier(args["model"])
     scaleFactor = args["scale"]
     minNeighbors = args["minNeighbors"]
@@ -45,7 +75,6 @@ def load_image():
         img,
         scaleFactor=float(scaleFactor),
         minNeighbors=int(minNeighbors),
-        minSize=(30, 30)
     )
 
     convertedImg = img
@@ -71,7 +100,6 @@ def load_image():
             convertedImg,
             scaleFactor=float(scaleFactor),
             minNeighbors=int(minNeighbors),
-            minSize=(30, 30)
         )
 
         foundFaces = 0
@@ -88,10 +116,10 @@ def load_image():
                 ((x - (x+w))**2) + ((y - (y+h))**2)), 2)
 
             # Print diagonal of found face after convertion
-            print("ConvertedFaceArea: " + str(convertedFaceDiagonal))
+            print("ConvertedFaceDiagonal: " + str(convertedFaceDiagonal))
 
             for index in range(0, len(faceDiagonalList)):
-                # Print area info of found faces
+                # Print diagonal info of found faces
                 print(
                     "Min. diagonal " + str(maxDeviationLow) + ": " +
                     str(round(faceDiagonalList[index] * maxDeviationLow, 2)) +
@@ -100,7 +128,7 @@ def load_image():
                     str(maxDeviationHigh) + ": "
                     + str(round(faceDiagonalList[index] * maxDeviationHigh, 2)))
 
-                # Check if area of face is not smaller or bigger than original face by maxDeviation -> if true than it's the original face
+                # Check if diagonal of face is in between threshold if true than it's the original face
                 if((convertedFaceDiagonal <= faceDiagonalList[index] and convertedFaceDiagonal >= (faceDiagonalList[index] * maxDeviationLow))
                         or (convertedFaceDiagonal >= faceDiagonalList[index] and convertedFaceDiagonal <= (faceDiagonalList[index] * maxDeviationHigh))):
                     foundFaces += 1

@@ -1,3 +1,34 @@
+<!--
+  BSD 3-Clause License
+
+  Copyright (c) 2020, Philip Densborn
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+     list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived from
+     this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -180,7 +211,7 @@
     <!-- End Header -->
 
     <main id="main">
-      <!-- ======= Our Portfolio Section ======= -->
+      <!-- ======= Info Section ======= -->
     <section id="info" class="info-bg" style="background-color: whitesmoke">
       <div class="container">
 
@@ -190,12 +221,14 @@
           <p>The results of the different methods very a lot dependent of the image size and color. 
             Before downloading the new image it is highly recommended to test the resistancy against all 
             available cascades. Each cascade is a model trained with different input values. Additionally you shoud try to test the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
-            and the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible. 
+            at "1" and the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible. 
             That causes the algorithm to detect way more False-Positives, but we want to be sure that your face will not be detected under most if not all circumstances.
-            Thus you can be sure that your image will really be resistant against the Viola-Jones Framework. More details and the used cascades can be fund here:
+            Thus you can be sure that your image will really be resistant against the Viola-Jones Framework. If your face gets detected through only one of the Cascades, please try a different convertion method.
+            This method will not protect your image. More details and the used cascades can be fund here:
             <br> 
             <a target="_blank" href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html#cascadeclassifier-detectmultiscale">OpenCV documentation</a>
-            or <a target="_blank" href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a>  
+            or <a target="_blank" href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a> 
+            <p>If there are any questions left, check out our <a href="faq.html">FAQ</a> site.</p> 
             <p><b>The size of your image should not exceed 5MB !</b></p>
             <p><b>Image convertion takes ~ 2 - 20 sec.</b></p>
             <p style="color: crimson;"><b>Disclaimer:</b></p>
@@ -251,9 +284,9 @@
           </table>
         </div>
       </div>
-    </section><!-- End Our Portfolio Section -->
+    </section><!-- End Info Section -->
 
-      <!-- ======= Convert Section ======= -->
+      <!-- ======= Conversion Section ======= -->
       <section id="convert-section" class="about">
         <div class="container">
           <div class="section-title">
@@ -421,7 +454,7 @@
           </div>
         </div>
       </section>
-      <!-- End About Us Section -->
+      <!-- End Conversion Section -->
 
       <!-- ======= Contact Us Section ======= -->
       <section id="contact" class="contact section-bg">
@@ -483,6 +516,7 @@
             <div class="col-lg-2 col-md-6 footer-links">
               <h4>Links</h4>
               <ul>
+                <li><i class="bx bx-chevron-right"></i><a href="faq.html">FAQ</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="policy.html">Privacy Policy</a></li>
               </ul>
             </div>
