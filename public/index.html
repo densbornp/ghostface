@@ -31,7 +31,8 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -45,9 +46,8 @@
 
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-      rel="stylesheet"
-    />
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
 
     <!-- JQuery -->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
@@ -56,10 +56,7 @@
     <script src="assets/js/js.cookie.min.js"></script>
 
     <!-- Vendor CSS Files -->
-    <link
-      href="assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet" />
     <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
     <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
@@ -74,470 +71,389 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  </head>
+</head>
 
-  <body>    
+<body>
     <!-- ======= Hero Section ======= -->
     <section id="hero">
-      <div class="hero-container">
-        <div
-          id="heroCarousel"
-          class="carousel slide carousel-fade"
-          data-ride="carousel"
-        >
-          <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+        <div class="hero-container">
+            <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+                <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
 
-          <div class="carousel-inner" role="listbox">
-            <!-- Slide 1 -->
-            <div class="carousel-item active">
-              <div class="carousel-background">
-                <img src="assets/img/slide/slide-1.jpg" alt="" />
-              </div>
-              <div class="carousel-container">
-                <div class="carousel-content">
-                  <h2 class="animated fadeInDown">
-                    Welcome to <span>GhostFace</span>
-                  </h2>
-                  <p class="animated fadeInUp">
-                    On this site you can upload an image of your face and you
-                    will get a face detection resistant image back.
-                  </p>
-                  <a
-                    href="#convert-section"
-                    class="btn-get-started animated fadeInUp scrollto"
-                    >Let's go</a
-                  >
+                <div class="carousel-inner" role="listbox">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="carousel-background">
+                            <img src="assets/img/slide/slide-1.jpg" alt="" />
+                        </div>
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animated fadeInDown">
+                                    Welcome to <span>GhostFace</span>
+                                </h2>
+                                <p class="animated fadeInUp">
+                                    On this site you can upload an image of your face and you
+                                    will get a face detection resistant image back.
+                                </p>
+                                <a href="#convert-section" class="btn-get-started animated fadeInUp scrollto">Let's
+                                    go</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="carousel-background">
+                            <img src="assets/img/slide/slide-2.jpg" alt="" />
+                        </div>
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animated fadeInDown">Algorithms</h2>
+                                <p class="animated fadeInUp">
+                                    GhostFace uses the OpenCV Framework to detect your face. It
+                                    algorithms build up on the Viola-Jones Face Detection
+                                    Framework.
+                                </p>
+                                <a href="#convert-section" class="btn-get-started animated fadeInUp scrollto">Let's
+                                    go</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <div class="carousel-background">
+                            <img src="assets/img/slide/slide-3.jpg" alt="" />
+                        </div>
+                        <div class="carousel-container">
+                            <div class="carousel-content">
+                                <h2 class="animated fadeInDown">Data protection</h2>
+                                <p class="animated fadeInUp">
+                                    We are not collecting any data of you. Our server gets wiped
+                                    every 30 minutes. All images will then be deleted
+                                    permanentilly and cannot be restored.
+                                </p>
+                                <a href="#convert-section" class="btn-get-started animated fadeInUp scrollto">Let's
+                                    go</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+
+                <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon icofont-thin-double-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon icofont-thin-double-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-
-            <!-- Slide 2 -->
-            <div class="carousel-item">
-              <div class="carousel-background">
-                <img src="assets/img/slide/slide-2.jpg" alt="" />
-              </div>
-              <div class="carousel-container">
-                <div class="carousel-content">
-                  <h2 class="animated fadeInDown">Algorithms</h2>
-                  <p class="animated fadeInUp">
-                    GhostFace uses the OpenCV Framework to detect your face. It
-                    algorithms build up on the Viola-Jones Face Detection
-                    Framework.
-                  </p>
-                  <a
-                    href="#convert-section"
-                    class="btn-get-started animated fadeInUp scrollto"
-                    >Let's go</a
-                  >
-                </div>
-              </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-item">
-              <div class="carousel-background">
-                <img src="assets/img/slide/slide-3.jpg" alt="" />
-              </div>
-              <div class="carousel-container">
-                <div class="carousel-content">
-                  <h2 class="animated fadeInDown">Data protection</h2>
-                  <p class="animated fadeInUp">
-                    We are not collecting any data of you. Our server gets wiped
-                    every 30 minutes. All images will then be deleted
-                    permanentilly and cannot be restored.
-                  </p>
-                  <a
-                    href="#convert-section"
-                    class="btn-get-started animated fadeInUp scrollto"
-                    >Let's go</a
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <a
-            class="carousel-control-prev"
-            href="#heroCarousel"
-            role="button"
-            data-slide="prev"
-          >
-            <span
-              class="carousel-control-prev-icon icofont-thin-double-left"
-              aria-hidden="true"
-            ></span>
-            <span class="sr-only">Previous</span>
-          </a>
-
-          <a
-            class="carousel-control-next"
-            href="#heroCarousel"
-            role="button"
-            data-slide="next"
-          >
-            <span
-              class="carousel-control-next-icon icofont-thin-double-right"
-              aria-hidden="true"
-            ></span>
-            <span class="sr-only">Next</span>
-          </a>
         </div>
-      </div>
     </section>
     <!-- End Hero -->
 
     <!-- ======= Header ======= -->
     <header id="header">
-      <div class="container d-flex">
-        <div class="logo mr-auto">
-          <h1 class="text-light">
-            <a href="/"><span>GhostFace</span></a>
-          </h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-        </div>
+        <div class="container d-flex">
+            <div class="logo mr-auto">
+                <h1 class="text-light">
+                    <a href="/"><span>GhostFace</span></a>
+                </h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+            </div>
 
-        <nav class="nav-menu d-none d-lg-block">
-          <ul>
-            <li class="active"><a href="#header">Home</a></li>
-            <li><a href="#info">Info</a></li>
-            <li><a href="#convert-section">Convert image</a></li>
-            <li><a href="#contact">Contact us</a></li>
-          </ul>
-        </nav>
-        <!-- .nav-menu -->
-      </div>
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="#header">Home</a></li>
+                    <li><a href="#info">Info</a></li>
+                    <li><a href="#convert-section">Convert image</a></li>
+                    <li><a href="#contact">Contact us</a></li>
+                </ul>
+            </nav>
+            <!-- .nav-menu -->
+        </div>
     </header>
     <!-- End Header -->
 
     <main id="main">
-      <!-- ======= Info Section ======= -->
-    <section id="info" class="info-bg" style="background-color: whitesmoke">
-      <div class="container">
+        <!-- ======= Info Section ======= -->
+        <section id="info" class="info-bg" style="background-color: whitesmoke">
+            <div class="container">
 
-        <div class="section-title">
-          <h2>Information</h2>
-          <p>To get a face detection resistant image you have to consider a couple of important points.</p>
-          <p>The results of the different methods very a lot dependent of the image size and color. 
-            Before downloading the new image it is highly recommended to test the resistancy against all 
-            available cascades. Each cascade is a model trained with different input values. Additionally you shoud try to test the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
-            at "1" and the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible. 
-            That causes the algorithm to detect way more False-Positives, but we want to be sure that your face will not be detected under most if not all circumstances.
-            Thus you can be sure that your image will really be resistant against the Viola-Jones Framework. If your face gets detected through only one of the Cascades, please try a different convertion method.
-            This method will not protect your image. More details and the used cascades can be fund here:
-            <br> 
-            <a target="_blank" href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html#cascadeclassifier-detectmultiscale">OpenCV documentation</a>
-            or <a target="_blank" href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a> 
-            <p>If there are any questions left, check out our <a href="faq.html">FAQ</a> site.</p> 
-            <p><b>The size of your image should not exceed 5MB !</b></p>
-            <p><b>Image convertion takes ~ 2 - 20 sec.</b></p>
-            <p style="color: crimson;"><b>Disclaimer:</b></p>
-            <p style="color: crimson;">There is no 100% guarantee that the converted image is face detection resistant against all kind of face detection frameworks!</p>
-          </p>
-          <p>Description of the available methods:</p>
+                <div class="section-title">
+                    <h2>Information</h2>
+                    <p>To get a face detection resistant image you have to consider a couple of important points.</p>
+                    <p>The results of the different methods very a lot dependent of the image size and color.
+                        Before downloading the new image it is highly recommended to test the resistancy against all
+                        available cascades. Each cascade is a model trained with different input values. Additionally
+                        you shoud try to test the <a href="#" style="cursor: help;" onclick="return false;"
+                            data-toggle="tooltip"
+                            title="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
+                        at "1" and the <a href="#" style="cursor: help;" onclick="return false;" data-toggle="tooltip"
+                            title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a>
+                        at the lowest level possible.
+                        That causes the algorithm to detect way more False-Positives, but we want to be sure that your
+                        face will not be detected under most if not all circumstances.
+                        Thus you can be sure that your image will really be resistant against the Viola-Jones Framework.
+                        If your face gets detected through only one of the Cascades, please try a different convertion
+                        method.
+                        This method will not protect your image. More details and the used cascades can be fund here:
+                        <br>
+                        <a target="_blank"
+                            href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html#cascadeclassifier-detectmultiscale">OpenCV
+                            documentation</a>
+                        or <a target="_blank"
+                            href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a>
+                    <p>If there are any questions left, check out our <a href="faq.html">FAQ</a> site.</p>
+                    <p><b>The size of your image should not exceed 5MB !</b></p>
+                    <p><b>Image convertion takes ~ 2 - 20 sec.</b></p>
+                    <p style="color: crimson;"><b>Disclaimer:</b></p>
+                    <p style="color: crimson;">There is no 100% guarantee that the converted image is face detection
+                        resistant against all kind of face detection frameworks!</p>
+                    </p>
+                    <p>Description of the available methods:</p>
 
-          <table>
-            <tr>
-              <th>Method</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Hide half</td>
-              <td>Hides the lower part of the image behind a black rectangle with an alpha of 80%</td>
-            </tr>
-            <tr>
-              <td>Black grid</td>
-              <td>Every 2nd pixel of the image will be black</td>
-            </tr>
-            <tr>
-              <td>White grid</td>
-              <td>Every 2nd pixel of the image will be white</td>
-            </tr>
-            <tr>
-              <td>Edges</td>
-              <td>Only detected edges of the image will be displayed</td>
-            </tr>
-            <tr>
-              <td>HSV Color</td>
-              <td>Changes the color scheme of the image to <a target="_blank" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></td>
-            </tr>
-            <tr>
-              <td>Invert color</td>
-              <td>Inverts every pixel of the image</td>
-            </tr>
-            <tr>
-              <td>Invert gray color</td>
-              <td>Converts the image into a grayscale image and inverts every pixel of it</td>
-            </tr>
-            <tr>
-              <td>Cartoon</td>
-              <td>Cartoonizes the image</td>
-            </tr>
-            <tr>
-              <td>Color highlighting</td>
-              <td>Converts a threshold of white color to black and highlights it</td>
-            </tr>
-            <tr>
-              <td>Blue filter</td>
-              <td>Shows only the blue channel of the image</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </section><!-- End Info Section -->
-
-      <!-- ======= Conversion Section ======= -->
-      <section id="convert-section" class="about">
-        <div class="container">
-          <div class="section-title">
-            <h2>Protect your privacy!</h2>
-            <p>
-              Upload an image of yourself and you'll get a face detection
-              resistant image back.
-            </p>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div>
-                <img
-                  src="assets/img/no-image-original.png"
-                  style="width: 100%; object-fit: contain;"
-                  class="center"
-                  alt=""
-                  id="uploadedImage"
-                />
-              </div>
-              <br />
-              <form
-                action="/upload"
-                method="POST"
-                enctype="multipart/form-data"
-                name="uploadForm"
-                id="uploadForm"
-              >
-                <div class="input-group">
-                  <div class="custom-file">
-                    <input
-                      type="file"
-                      name="imageFile"
-                      accept="image/x-png,image/jpeg"
-                      class="custom-file-input"
-                      id="inputFile"
-                    />
-                    <label class="custom-file-label" for="inputFile"
-                      >Choose file</label
-                    >
-                  </div>
+                    <table>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>Hide half</td>
+                            <td>Hides the lower part of the image behind a black rectangle with an alpha of 80%</td>
+                        </tr>
+                        <tr>
+                            <td>Black grid</td>
+                            <td>Every 2nd pixel of the image will be black</td>
+                        </tr>
+                        <tr>
+                            <td>White grid</td>
+                            <td>Every 2nd pixel of the image will be white</td>
+                        </tr>
+                        <tr>
+                            <td>Edges</td>
+                            <td>Only detected edges of the image will be displayed</td>
+                        </tr>
+                        <tr>
+                            <td>HSV Color</td>
+                            <td>Changes the color scheme of the image to <a target="_blank"
+                                    href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></td>
+                        </tr>
+                        <tr>
+                            <td>Invert color</td>
+                            <td>Inverts every pixel of the image</td>
+                        </tr>
+                        <tr>
+                            <td>Invert gray color</td>
+                            <td>Converts the image into a grayscale image and inverts every pixel of it</td>
+                        </tr>
+                        <tr>
+                            <td>Cartoon</td>
+                            <td>Cartoonizes the image</td>
+                        </tr>
+                        <tr>
+                            <td>Color highlighting</td>
+                            <td>Converts a threshold of white color to black and highlights it</td>
+                        </tr>
+                        <tr>
+                            <td>Blue filter</td>
+                            <td>Shows only the blue channel of the image</td>
+                        </tr>
+                    </table>
                 </div>
-                <br>
-                <h4>Info</h4>
-                <p>If the converted image is not really recognizable, please try to zoom out (STRG -) or in (STRG +) with your browser.
-                  The converted image will always look correct when downloaded, regardless of the browser settings.
-                </p>
-              </form>
+            </div>
+        </section><!-- End Info Section -->
+
+        <!-- ======= Conversion Section ======= -->
+        <section id="convert-section" class="about">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Protect your privacy!</h2>
+                    <p>
+                        Upload an image of yourself and you'll get a face detection
+                        resistant image back.
+                    </p>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div>
+                            <img src="assets/img/no-image-original.png" style="width: 100%; object-fit: contain;"
+                                class="center" alt="" id="uploadedImage" />
+                        </div>
+                        <br />
+                        <form action="/upload" method="POST" enctype="multipart/form-data" name="uploadForm"
+                            id="uploadForm">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" name="imageFile" accept="image/x-png,image/jpeg"
+                                        class="custom-file-input" id="inputFile" />
+                                    <label class="custom-file-label" for="inputFile">Choose file</label>
+                                </div>
+                            </div>
+                            <br>
+                            <h4>Info</h4>
+                            <p>If the converted image is not really recognizable, please try to zoom out (STRG -) or in
+                                (STRG +) with your browser.
+                                The converted image will always look correct when downloaded, regardless of the browser
+                                settings.
+                            </p>
+                        </form>
+                    </div>
+
+                    <div class="col-lg-6 pt-4 pt-lg-0 content">
+                        <div>
+                            <img src="assets/img/no-image-tmp.png" style="width: 100%; object-fit: contain;"
+                                class="img-fluid" alt="" id="convertedImage" />
+                        </div>
+                        <br />
+                        <div>
+                            <form action="/download" method="GET" name="downloadForm" id="downloadForm">
+                                <button class="btn" id="btn-download" type="submit" style="float: left;" disabled>
+                                    <i class="fa fa-download"></i> Download
+                                </button>
+                                <input type="hidden" name="image" class="imageName" />
+                            </form>
+                            <label id="status-label"
+                                style="color: crimson; margin-left: 10px; text-align: center;">Finished!</label>
+                        </div>
+                        <br />
+                        <form action="/convert" method="POST" enctype="multipart/form-data" name="convertForm"
+                            id="convertForm">
+                            <p style="display: inline-block;">
+                                Choose the type of convertion:
+                            </p>
+                            <!-- Options -->
+                            <select name="options" id="options" disabled>
+                                <option value="none">None</option>
+                                <option value="hide-half">Hide half</option>
+                                <option value="blackgrid">Black grid</option>
+                                <option value="whitegrid">White grid</option>
+                                <option value="edges">Edges</option>
+                                <option value="hsv">HSV Color</option>
+                                <option value="bitwise-not">Invert color</option>
+                                <option value="bitwise-not-gray">Invert gray color</option>
+                                <option value="cartoon">Cartoon</option>
+                                <option value="color-highlighting">Highlight black color</option>
+                                <option value="blue-filter">Blue filter</option>
+                            </select>
+                            <br />
+                            <p style="display: inline-block;">Choose cascade type:</p>
+                            <select name="cascade_options" id="cascade_options" disabled>
+                                <option value="haar">Default</option>
+                                <option value="haar-alt">Alternative</option>
+                                <option value="haar-alt2">Alternative 2</option>
+                                <option value="haar-alt-tree">Alternative Tree</option>
+                            </select>
+                            <br />
+                            <label for="minNeighbors">Sensitivity:</label>
+                            <div class="slidecontainer">
+                                <input type="range" min="0" max="6" value="3" step="1" class="slider" id="minNeighbors"
+                                    name="minNeighbors" onchange="updateSensitivityText(this.value);" disabled />
+                                <output name="outputMinNeighbors" id="outputMinNeighbors">3</output>
+                            </div>
+                            <label for="scaleFactor" id="textScale">Scale-Factor:</label>
+                            <div class="slidecontainer">
+                                <input type="range" min="1.01" max="1.4" value="1.05" step="0.01" class="slider"
+                                    id="scaleFactor" name="scaleFactor" onchange="updateScaleText(this.value);"
+                                    disabled />
+                                <output name="outputScale" id="outputScale">1.05</output>
+                            </div>
+                            <br />
+                            <input type="hidden" name="imageName" class="imageName" />
+                            <input id="btn-submit" type="submit" value="Convert image" disabled />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Conversion Section -->
+
+        <!-- ======= Contact Us Section ======= -->
+        <section id="contact" class="contact section-bg">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>
+                        If there are any questions left about GhostFace, feel free to
+                        contact us any time. We'll answer as fast as possible.
+                    </p>
+                </div>
             </div>
 
-            <div class="col-lg-6 pt-4 pt-lg-0 content">
-              <div>
-                <img
-                  src="assets/img/no-image-tmp.png"
-                  style="width: 100%; object-fit: contain;"
-                  class="img-fluid"
-                  alt=""
-                  id="convertedImage"
-                />
-              </div>
-              <br />
-              <div>
-                <form
-                  action="/download"
-                  method="GET"
-                  name="downloadForm"
-                  id="downloadForm"
-                >
-                  <button
-                    class="btn"
-                    id="btn-download"
-                    type="submit"
-                    style="float: left;"
-                    disabled
-                  >
-                    <i class="fa fa-download"></i> Download
-                  </button>
-                  <input type="hidden" name="image" class="imageName" />
-                </form>
-                <label
-                  id="status-label"
-                  style="color: crimson; margin-left: 10px; text-align: center;"
-                  >Finished!</label
-                >
-              </div>
-              <br />
-              <form
-                action="/convert"
-                method="POST"
-                enctype="multipart/form-data"
-                name="convertForm"
-                id="convertForm"
-              >
-                <p style="display: inline-block;">
-                  Choose the type of convertion:
-                </p>
-                <!-- Options -->
-                <select name="options" id="options" disabled>
-                  <option value="none">None</option>
-                  <option value="hide-half">Hide half</option>
-                  <option value="blackgrid">Black grid</option>
-                  <option value="whitegrid">White grid</option>
-                  <option value="edges">Edges</option>
-                  <option value="hsv">HSV Color</option>
-                  <option value="bitwise-not">Invert color</option>
-                  <option value="bitwise-not-gray">Invert gray color</option>
-                  <option value="cartoon">Cartoon</option>
-                  <option value="color-highlighting">Highlight black color</option>
-                  <option value="blue-filter">Blue filter</option>
-                </select>
-                <br />
-                <p style="display: inline-block;">Choose cascade type:</p>
-                <select name="cascade_options" id="cascade_options" disabled>
-                  <option value="haar">Default</option>
-                  <option value="haar-alt">Alternative</option>
-                  <option value="haar-alt2">Alternative 2</option>
-                  <option value="haar-alt-tree">Alternative Tree</option>
-                </select>
-                <br />
-                <label for="minNeighbors">Sensitivity:</label>
-                <div class="slidecontainer">
-                  <input
-                    type="range"
-                    min="0"
-                    max="6"
-                    value="3"
-                    step="1"
-                    class="slider"
-                    id="minNeighbors"
-                    name="minNeighbors"
-                    onchange="updateSensitivityText(this.value);"
-                    disabled
-                  />
-                  <output name="outputMinNeighbors" id="outputMinNeighbors"
-                    >3</output
-                  >
+            <div class="container-fluid">
+                <div class="col-lg-6 d-flex align-items-stretch infos">
+                    <div class="row">
+                        <div class="col-lg-6 info d-flex flex-column align-items-stretch">
+                            <i class="bx bx-map"></i>
+                            <h4>Address</h4>
+                            <p>
+                                University of Applied Science Trier<br />Schneidershof, 54293
+                                Trier
+                            </p>
+                        </div>
+                        <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
+                            <i class="bx bx-envelope"></i>
+                            <h4>Email</h4>
+                            <p>burningstack@gmail.com</p>
+                        </div>
+                    </div>
                 </div>
-                <label for="scaleFactor" id="textScale">Scale-Factor:</label>
-                <div class="slidecontainer">
-                  <input
-                    type="range"
-                    min="1.01"
-                    max="1.4"
-                    value="1.05"
-                    step="0.01"
-                    class="slider"
-                    id="scaleFactor"
-                    name="scaleFactor"
-                    onchange="updateScaleText(this.value);"
-                    disabled
-                  />
-                  <output name="outputScale" id="outputScale">1.05</output>
-                </div>
-                <br />
-                <input type="hidden" name="imageName" class="imageName" />
-                <input
-                  id="btn-submit"
-                  type="submit"
-                  value="Convert image"
-                  disabled
-                />
-              </form>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Conversion Section -->
-
-      <!-- ======= Contact Us Section ======= -->
-      <section id="contact" class="contact section-bg">
-        <div class="container">
-          <div class="section-title">
-            <h2>Contact Us</h2>
-            <p>
-              If there are any questions left about GhostFace, feel free to
-              contact us any time. We'll answer as fast as possible.
-            </p>
-          </div>
-        </div>
-
-        <div class="container-fluid">
-          <div class="col-lg-6 d-flex align-items-stretch infos">
-            <div class="row">
-              <div class="col-lg-6 info d-flex flex-column align-items-stretch">
-                <i class="bx bx-map"></i>
-                <h4>Address</h4>
-                <p>
-                  University of Applied Science Trier<br />Schneidershof, 54293
-                  Trier
-                </p>
-              </div>
-              <div
-                class="col-lg-6 info info-bg d-flex flex-column align-items-stretch"
-              >
-                <i class="bx bx-envelope"></i>
-                <h4>Email</h4>
-                <p>dsecsoftware@mailbox.org</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- End Contact Us Section -->
+        </section>
+        <!-- End Contact Us Section -->
     </main>
     <!-- End #main -->
 
     <!-- ======= Cookie consent ======= -->
     <div id="cookieConsent">
-      This website is using cookies to assign the uploaded images to the users. They are necessary to use this website. More information can be found here: <a href="policy.html" target="_blank">Privacy Policy</a>. <a class="cookieConsentOK">Accept</a>
+        This website is using cookies to assign the uploaded images to the users. They are necessary to use this
+        website. More information can be found here: <a href="policy.html" target="_blank">Privacy Policy</a>. <a
+            class="cookieConsentOK">Accept</a>
     </div>
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-      <div class="footer-top">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 footer-info">
+                        <h3>GhostFace</h3>
+                        <p>
+                            University of Applied Science Trier<br />
+                            Schneidershof<br />54293, Deutschland<br /><br />
+                            <strong>Email:</strong> burningstack@gmail.com<br />
+                        </p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 footer-links">
+                        <h4>Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i><a href="faq.html">FAQ</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="policy.html">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
-          <div class="row">
-            <div class="col-lg-3 col-md-6 footer-info">
-              <h3>GhostFace</h3>
-              <p>
-                University of Applied Science Trier<br />
-                Schneidershof<br />54293, Deutschland<br /><br />
-                <strong>Email:</strong> dsecsoftware@mailbox.org<br />
-              </p>
+            <div class="copyright">
+                &copy; Copyright <strong><span>GhostFace</span></strong>. All Rights Reserved
             </div>
-
-            <div class="col-lg-2 col-md-6 footer-links">
-              <h4>Links</h4>
-              <ul>
-                <li><i class="bx bx-chevron-right"></i><a href="faq.html">FAQ</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="policy.html">Privacy Policy</a></li>
-              </ul>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
+                <div>Icons created from <a href="https://www.flaticon.com/de/autoren/good-ware" title="Good Ware">Good
+                        Ware</a> from <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a></div>
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
-          </div>
         </div>
-      </div>
-
-      <div class="container">
-        <div class="copyright">
-          &copy; Copyright <strong><span>GhostFace</span></strong
-          >. All Rights Reserved
-        </div>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bootstrap-3-one-page-template-free-shuffle/ -->
-          <div>Icons created from <a href="https://www.flaticon.com/de/autoren/good-ware" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a></div>
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-      </div>
     </footer>
     <!-- End Footer -->
 
@@ -556,5 +472,6 @@
 
     <!-- Custom JS File for image upload etc. -->
     <script src="assets/js/custom.js"></script>
-  </body>
+</body>
+
 </html>
