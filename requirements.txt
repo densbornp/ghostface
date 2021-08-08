@@ -1,0 +1,3 @@
+###### Python rquirements ######
+numpy
+opencv-python
