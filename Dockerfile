@@ -5,6 +5,7 @@ RUN apt update && apt install -y python3 python3-pip nodejs npm
 RUN mkdir ghostface
 COPY . /ghostface
 WORKDIR /ghostface
+RUN rm -R .git
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN npm install
 RUN chown -R www-data:www-data public
