@@ -155,6 +155,10 @@ async function uploadEntryPoint(req, res) {
         } else {
             image = req.files.imageFile;
             filetype = path.extname(image.name);
+            if(filetype !== '.png' || filetype !== '.PNG' || filetype !== '.jpg' || filetype !== '.JPG'
+                || filetype !== '.jpeg' || filetype !== '.JPEG' || filetype !== '.gif' || filetype !== '.GIF') {
+                res.status(500).send("The uploaded file is not an image!");
+            }
 
             var basePath = "public/uploads/";
 
