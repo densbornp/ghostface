@@ -32,7 +32,6 @@
  */
 const express = require("express");
 const app = express();
-const https = require("https");
 const http = require("http");
 const fs = require("fs");
 const port = 80;
@@ -155,9 +154,18 @@ async function uploadEntryPoint(req, res) {
         } else {
             image = req.files.imageFile;
             filetype = path.extname(image.name);
-            if(filetype !== '.png' || filetype !== '.PNG' || filetype !== '.jpg' || filetype !== '.JPG'
-                || filetype !== '.jpeg' || filetype !== '.JPEG' || filetype !== '.gif' || filetype !== '.GIF') {
-                res.status(500).send("The uploaded file is not an image!");
+            console.log("FILETYPE", filetype);
+
+            switch(filetype) {
+                case '.png': break;
+                case '.PNG': break;
+                case '.jpg': break;
+                case '.JPG': break;
+                case '.jpeg': break;
+                case '.JPEG': break;
+                default:  res.status(500).send("The uploaded file is not a PNG or JPG file!");
+                          console.log("The uploaded file is not a PNG or JPG file!");
+                          return;
             }
 
             var basePath = "public/uploads/";
