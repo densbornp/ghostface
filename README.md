@@ -9,8 +9,8 @@ After the installation of Node.js you simply open the project folder in a consol
 With the command: <b>npm install</b> install all necessary libraries.
 
 To start the server enter following command from the root directory of the project: <b>node app.js</b>
-The server should than run on port 3000.
-You can open the webiste by entering <b>localhost:3000</b> into your browsers URL input field.
+The server should than run on port 80.
+You can open the webiste by entering <b>localhost</b> or <b>127.0.0.1</b> into your browsers URL input field.
 
 ## General information
 
