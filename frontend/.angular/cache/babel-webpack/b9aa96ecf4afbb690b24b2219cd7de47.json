@@ -1,0 +1,1 @@
+{"ast":null,"code":"export let Paths = /*#__PURE__*/(() => {\n  class Paths {}\n\n  Paths.PATH_HOME = '';\n  Paths.PATH_POLICY = 'policy';\n  Paths.PATH_FAQ = 'faq';\n  return Paths;\n})();","map":null,"metadata":{},"sourceType":"module"}

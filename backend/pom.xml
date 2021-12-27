@@ -8,7 +8,7 @@
 		<version>2.3.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.dsecsoftware</groupId>
+	<groupId>com.burningstack.ghostface</groupId>
 	<artifactId>ghostface</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -66,9 +66,28 @@
                     <executable>ng</executable>
                     <arguments>
                         <argument>build</argument>
-                        <argument>--prod</argument>
+                        <argument>--configuration="production"</argument>
                     </arguments>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete>
+                                    <fileset dir="${basedir}/src/main/resources/public/"/>
+                                </delete>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 			<plugin>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -80,6 +99,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
+                            <overwrite>true</overwrite>
                             <outputDirectory>${basedir}/src/main/resources/public/</outputDirectory>
                             <resources>
                                 <resource>
