@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  ghostface:
+    container_name: ghostface
+    build: .
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    networks:
+      - ghostface
+
+  ghostface-db:
+    container_name: ghostface-db
+    image: 'mariadb'
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Berlin
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_DATABASE: 'ghostface-db'
+      MYSQL_USER: '${DB_MYSQL_USER}'
+      MYSQL_PASSWORD: '${DB_MYSQL_PASSWORD}'
+    restart: unless-stopped
+    volumes:
+      - ./ghostface/backend/db/config:/config
+    networks:
+      - ghostface
+
+networks:
+  ghostface:
+    external: true
+

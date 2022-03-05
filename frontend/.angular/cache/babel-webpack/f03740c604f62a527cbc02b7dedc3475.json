@@ -1,1 +1,0 @@
-{"ast":null,"code":"export let Directories = /*#__PURE__*/(() => {\n  class Directories {}\n\n  Directories.PATH_IMGAES = '../assets/img/';\n  Directories.PATH_SLIDER_IMGS = '../assets/img/slide/';\n  return Directories;\n})();","map":null,"metadata":{},"sourceType":"module"}

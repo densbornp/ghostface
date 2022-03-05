@@ -1,4 +1,4 @@
-package com.dsecsoftware.ghostface;
+package com.burningstack.ghostface;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
