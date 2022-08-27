@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConService {
 
-    private static String CONVERSION_SUCCESSFUL = "Conversion successful!";
+    private static final String CONVERSION_SUCCESSFUL = "Conversion successful!";
 
     public ResponseEntity<Object> convert(String cookie, int type) {
         switch (type) {
@@ -34,8 +34,9 @@ public class ConService {
                 return colorHighlighting();
             case ParamHelper.C_TYPE_FILTER_BLUE:
                 return blueFilter();
+            default:
+                return null;
         }
-        return null;
     }
 
     private ResponseEntity<Object> normalDetection() {

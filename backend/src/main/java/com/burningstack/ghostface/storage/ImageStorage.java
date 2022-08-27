@@ -23,7 +23,6 @@ public class ImageStorage {
         this.lastModified = new Date();
     }
 
-
     public BufferedImage getImage() {
         return imgBuffer[0];
     }

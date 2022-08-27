@@ -62,7 +62,6 @@ public class StorageHandler {
         String cookie = new String(buffer);
         buffer = null;
         setImageStorage(cookie, new ImageStorage(null, null));
-        // Encode cookie in Base64 and return it
         return cookie;
     }
 }

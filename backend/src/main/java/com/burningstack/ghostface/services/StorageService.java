@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @EnableScheduling
 public class StorageService {
 
-    private final static long deleteCycle = 60000; // 10 min.;
+    private static final long DELETE_CYCLE = 60000; // 10 min.;
 
     /** Stores the uploaded image into an ImageStorage */
     public ResponseEntity<Object> storeImage(String cookie, MultipartFile file) {
@@ -108,13 +108,13 @@ public class StorageService {
     /**
      * Removes all inactive clients after a given period
      */
-    @Scheduled(fixedDelay = deleteCycle)
+    @Scheduled(fixedDelay = DELETE_CYCLE)
     public void removeInactiveClients() {
         ConcurrentHashMap<String, ImageStorage> imageStorages = StorageHandler.getInstance().getAllImagesStorages();
         if(imageStorages.size() > 0) {
             Date now = new Date();
             imageStorages.forEach((cookie, imageStorage) -> {
-                if((imageStorage.getLastTimeModified().getTime() + deleteCycle) < now.getTime()) {
+                if((imageStorage.getLastTimeModified().getTime() + DELETE_CYCLE) < now.getTime()) {
                     StorageHandler.getInstance().removeImageStorage(cookie);
                     GhostfaceApplication.LOGGER.info("CLIENT_REMOVER_TASK: Removed inactive client: " + cookie.substring(0, 5));
                     StorageHandler.getInstance().printActiveClients();
