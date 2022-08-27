@@ -1,0 +1,73 @@
+.container {
+    color: white;
+    background-image: url("../../assets/img/honeycomb.jpg");
+    background-size: cover;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.header {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 33%;
+}
+
+.header .icon {
+    float: left;
+}
+
+.header h1 {
+    float: left;
+}
+
+.nav {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 33%;
+}
+
+.nav .item {
+    opacity: 0.8;
+    float: left;
+    height: 250px;
+    width: 450px;
+    margin: 10px;
+    border-radius: 20px;
+    background-color: white;
+    color: gray;
+    cursor: pointer;
+}
+
+.nav .item:hover {
+    opacity: 1;
+}
+
+.footer {
+    display: table;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer .item {
+    position: relative;
+    opacity: 0.8;
+    color: gray;
+    float: left;
+    height: 75px;
+    width: 250px;
+    margin: 10px;
+    border-radius: 20px;
+    background-color: white;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.footer .item:hover {
+    opacity: 1;
+}
