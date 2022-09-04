@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles.scss"
             ],
             "scripts": ["node_modules/jquery/dist/jquery.min.js"],
@@ -115,6 +116,9 @@
           }
         }
       }
-    }},
-  "defaultProject": "frontend"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
 }

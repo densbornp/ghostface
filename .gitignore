@@ -17,6 +17,7 @@ bower_components/
 # IDEs and editors
 .idea/
 .vscode/
+frontend/.angular/
 
 # Upload folder
 uploads/*
