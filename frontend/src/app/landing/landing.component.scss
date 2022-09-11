@@ -1,5 +1,11 @@
-.container-fluid {
-    background-image: url("../../assets/img/honeycomb.jpg");
-    background-size: cover;
+@import "../../styles.scss";
+
+.btn-primary {
+    color: $text-white;
 }
 
+.btn-primary:hover {
+    transition: 0.5s;
+    background: $text-white;
+    color: $primary;
+}

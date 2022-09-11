@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { RootComponent } from './root/root.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LandingComponent } from './landing/landing.component';
+import { HeroComponent } from './hero/hero.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LandingComponent } from './landing/landing.component';
     HeaderComponent,
     PageNotFoundComponent,
     RootComponent,
-    LandingComponent
+    LandingComponent,
+    HeroComponent
   ],
   imports: [
     BrowserModule,
