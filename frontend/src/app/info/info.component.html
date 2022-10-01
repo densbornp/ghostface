@@ -1,10 +1,9 @@
-<section id="info" class="info-bg" style="background-color: whitesmoke">
-  <div class="container">
-
+<a id="info"></a>
+<div class="container-lg mt-2">
     <div class="section-title">
-      <h2>Information</h2>
-      <p>To get a face detection resistant image you have to consider a couple of important points.</p>
-      <p>The results of the different methods very a lot dependent of the image size and color.
+        <h2>Information</h2>
+        <p>To get a face detection resistant image you have to consider a couple of important points.</p>
+        <p>The results of the different methods very a lot dependent of the image size and color.
         Before downloading the new image it is highly recommended to test the resistancy against all
         available cascades. Each cascade is a model trained with different input values. Additionally you shoud try to test the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
         at "1" and the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible.
@@ -19,54 +18,65 @@
         <p><b>Image convertion takes ~ 2 - 20 sec.</b></p>
         <p style="color: crimson;"><b>Disclaimer:</b></p>
         <p style="color: crimson;">There is no 100% guarantee that the converted image is face detection resistant against all kind of face detection frameworks!</p>
-      <p>Description of the available methods:</p>
-
-      <table>
-        <tr>
-          <th>Method</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>Hide half</td>
-          <td>Hides the lower part of the image behind a black rectangle with an alpha of 80%</td>
-        </tr>
-        <tr>
-          <td>Black grid</td>
-          <td>Every 2nd pixel of the image will be black</td>
-        </tr>
-        <tr>
-          <td>White grid</td>
-          <td>Every 2nd pixel of the image will be white</td>
-        </tr>
-        <tr>
-          <td>Edges</td>
-          <td>Only detected edges of the image will be displayed</td>
-        </tr>
-        <tr>
-          <td>HSV Color</td>
-          <td>Changes the color scheme of the image to <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></td>
-        </tr>
-        <tr>
-          <td>Invert color</td>
-          <td>Inverts every pixel of the image</td>
-        </tr>
-        <tr>
-          <td>Invert gray color</td>
-          <td>Converts the image into a grayscale image and inverts every pixel of it</td>
-        </tr>
-        <tr>
-          <td>Cartoon</td>
-          <td>Cartoonizes the image</td>
-        </tr>
-        <tr>
-          <td>Color highlighting</td>
-          <td>Converts a threshold of white color to black and highlights it</td>
-        </tr>
-        <tr>
-          <td>Blue filter</td>
-          <td>Shows only the blue channel of the image</td>
-        </tr>
-      </table>
     </div>
-  </div>
-</section>
+
+    <h4>Available conversion methods</h4>
+    <div class="card">
+        <div class="card-body">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#hide-half-tab-pane" type="button" role="tab" aria-controls="hide-half-tab-pane" aria-selected="true">Hide half</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#grid-tab-pane" type="button" role="tab" aria-controls="grid-tab-pane">Grid</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edges-tab-pane" type="button" role="tab" aria-controls="edges-tab-pane">Edges</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#hsv-tab-pane" type="button" role="tab" aria-controls="hsv-tab-pane">HSV Color</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#invert-tab-pane" type="button" role="tab" aria-controls="invert-tab-pane">Invert color</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#cartoon-tab-pane" type="button" role="tab" aria-controls="cartoon-tab-pane">Cartoon</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#color-h-tab-pane" type="button" role="tab" aria-controls="color-h-tab-pane">Color highlighting</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#blue-filter-tab-pane" type="button" role="tab" aria-controls="blue-filter-tab-pane">Blue filter</button>
+                </li>
+            </ul>
+            <div class="tab-content p-3" id="tabContent">
+                <div class="tab-pane fade show active" id="hide-half-tab-pane" role="tabpanel" aria-labelledby="hide-half-tab" tabindex="0">
+                    <p>Hides the lower part of the image behind a black rectangle with an alpha of 80%</p>
+                </div>
+                <div class="tab-pane fade" id="grid-tab-pane" role="tabpanel" aria-labelledby="grid-tab" tabindex="0">
+                    <p>Black grid: Every 2nd pixel of the image will be black</p>
+                    <p>White grid: Every 2nd pixel of the image will be white</p>
+                </div>
+                <div class="tab-pane fade" id="edges-tab-pane" role="tabpanel" aria-labelledby="edges-tab" tabindex="0">
+                    <p>Only detected edges of the image will be displayed</p>
+                </div>
+                <div class="tab-pane fade" id="hsv-tab-pane" role="tabpanel" aria-labelledby="hsv-tab" tabindex="0">
+                    <p>Changes the color scheme of the image to <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></p>
+                </div>
+                <div class="tab-pane fade" id="invert-tab-pane" role="tabpanel" aria-labelledby="invert-tab" tabindex="0">
+                    <p>Invert color: Inverts every pixel of the image</p>
+                    <p>Invert gray color: Converts the image into a grayscale image and inverts every pixel of it</p>
+                </div>
+                <div class="tab-pane fade" id="cartoon-tab-pane" role="tabpanel" aria-labelledby="cartoon-tab" tabindex="0">
+                    <p>Cartoonizes the image</p>
+                </div>
+                <div class="tab-pane fade" id="color-h-tab-pane" role="tabpanel" aria-labelledby="color-h-tab" tabindex="0">
+                    <p>Converts a threshold of white color to black and highlights it</p>
+                </div>
+                <div class="tab-pane fade" id="blue-filter-tab-pane" role="tabpanel" aria-labelledby="blue-filter-tab" tabindex="0">
+                    <p>Shows only the blue channel of the image</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

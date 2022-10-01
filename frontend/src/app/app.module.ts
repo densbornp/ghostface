@@ -8,11 +8,9 @@ import { ContactComponent } from './contact/contact.component';
 import { InfoComponent } from './info/info.component';
 import { ConversionComponent } from './conversion/conversion.component';
 import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RootComponent } from './root/root.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LandingComponent } from './landing/landing.component';
 import { HeroComponent } from './hero/hero.component';
 
 @NgModule({
@@ -26,8 +24,6 @@ import { HeroComponent } from './hero/hero.component';
     FooterComponent,
     HeaderComponent,
     PageNotFoundComponent,
-    RootComponent,
-    LandingComponent,
     HeroComponent
   ],
   imports: [
