@@ -1,11 +1,14 @@
 package com.burningstack.ghostface.storage;
 
+import org.springframework.http.MediaType;
+
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
 public class ImageStorage {
     private String fileName;
-    private String extension;
+    private MediaType contentType;
+    private String fileExtension;
     private BufferedImage[] imgBuffer = new BufferedImage[3];
     private Date lastModified;
 
@@ -17,7 +20,17 @@ public class ImageStorage {
         if(fileName != null) {
             int index = fileName.lastIndexOf('.');
             if (index > 0) {
-                this.extension = fileName.substring(index + 1);
+                String extensionString = fileName.substring(index + 1).toLowerCase();
+                if (extensionString.contains("jpg") || extensionString.contains("jpeg")) {
+                    this.contentType = MediaType.IMAGE_JPEG;
+                    this.fileExtension = "jpg";
+                } else if (extensionString.contains("png")) {
+                    this.contentType = MediaType.IMAGE_PNG;
+                    this.fileExtension = "jpg";
+                } else {
+                    this.contentType = MediaType.IMAGE_GIF;
+                    this.fileExtension = "gif";
+                }
             }
         }
         this.lastModified = new Date();
@@ -47,8 +60,12 @@ public class ImageStorage {
         return fileName;
     }
 
-    public String getExtension() {
-        return extension;
+    public MediaType getContentType() {
+        return contentType;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
     }
 
     public Date getLastTimeModified() {

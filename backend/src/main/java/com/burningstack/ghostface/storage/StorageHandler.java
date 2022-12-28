@@ -47,7 +47,7 @@ public class StorageHandler {
     }
 
     public void printActiveClients() {
-        GhostfaceApplication.LOGGER.info("Currently the application is used by: " + this.imageStorage.size() + " users.");
+        GhostfaceApplication.LOGGER.info("Currently the application is used by: {} users.",  this.imageStorage.size());
     }
 
     public boolean isClientActive(String cookie) {

@@ -1,6 +1,7 @@
 package com.burningstack.ghostface.controller;
 
 import com.burningstack.ghostface.ParamHelper;
+import com.burningstack.ghostface.model.OpenCVModel;
 import com.burningstack.ghostface.services.ConService;
 import com.burningstack.ghostface.storage.StorageHandler;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,14 @@ public class ConversionController {
     }
 
     @PostMapping("/convert")
-    public ResponseEntity<Object> convertImage(@CookieValue(value = "user_session", defaultValue = "") String cookie, @RequestParam(ParamHelper.CONVERSION_TYPE_PARAM) int type) {
+    public ResponseEntity<Object> convertImage(@CookieValue(value = "user_session", defaultValue = "") String cookie,
+                                               @RequestParam(value = ParamHelper.PRETRAINED_MODEL, defaultValue = "100") int preTrainedModel,
+                                               @RequestParam(value = ParamHelper.CONVERSION_TYPE_PARAM, defaultValue = "1000") int conversionType,
+                                                @RequestParam(value = ParamHelper.IMAGE_SCALE_FACTOR, defaultValue = "1.05") double imageScaleFactor, @RequestParam(value = ParamHelper.MIN_NEIGHBOURS, defaultValue = "3") int minNeighbours) {
         if (cookie.isEmpty() || !StorageHandler.getInstance().isClientActive(cookie)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(VALID_COOKIE_MISSING);
         }
-        return null;
+        OpenCVModel model = new OpenCVModel(preTrainedModel, conversionType, imageScaleFactor, minNeighbours);
+        return conService.convert(cookie, model);
     }
 }

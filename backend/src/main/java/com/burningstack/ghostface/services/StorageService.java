@@ -3,10 +3,7 @@ package com.burningstack.ghostface.services;
 import com.burningstack.ghostface.GhostfaceApplication;
 import com.burningstack.ghostface.storage.ImageStorage;
 import com.burningstack.ghostface.storage.StorageHandler;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,7 +21,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @EnableScheduling
 public class StorageService {
 
-    private static final long DELETE_CYCLE = 60000; // 10 min.;
+    // private static final long DELETE_CYCLE = 300000; // 5 min.
+    // private static final long MAX_TIME_INACTIVE = 600000; // 10 min.
+    private static final long DELETE_CYCLE = 30000; // 30 sec.
+    private static final long MAX_TIME_INACTIVE = 60000; // 1 min.
 
     /** Stores the uploaded image into an ImageStorage */
     public ResponseEntity<Object> storeImage(String cookie, MultipartFile file) {
@@ -46,17 +46,13 @@ public class StorageService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
             }
             imgStore.setLastTimeModified(new Date());
+            MediaType contentType = imgStore.getContentType();
             BufferedImage img = imgStore.getConvertedImage();
-            String extension = imgStore.getExtension();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            ImageIO.write(img, extension, bout);
-            byte[] fileBytes = bout.toByteArray();
-            response.setHeader("Content-Disposition", "attachment; filename=" + imgStore.getFileName());
-            response.setContentLength(fileBytes.length);
-            response.getOutputStream().write(fileBytes);
-            response.flushBuffer();
+            ImageIO.write(img, imgStore.getFileExtension(), bout);
+            byte[] media = bout.toByteArray();
             StorageHandler.getInstance().printActiveClients();
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.ok().contentType(contentType).body(media);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,13 +67,13 @@ public class StorageService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
             }
             BufferedImage img = imgStore.getImage();
-            String extension = imgStore.getExtension();
+            MediaType contentType = imgStore.getContentType();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            ImageIO.write(img, extension, bout);
+            ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-            return new ResponseEntity<>(media, headers, HttpStatus.OK);
+            return ResponseEntity.ok().contentType(contentType).body(media);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,13 +88,13 @@ public class StorageService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
             }
             BufferedImage img = imgStore.getTemporaryImage();
-            String extension = imgStore.getExtension();
+            MediaType contentType = imgStore.getContentType();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
-            ImageIO.write(img, extension, bout);
+            ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
             HttpHeaders headers = new HttpHeaders();
             headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-            return new ResponseEntity<>(media, headers, HttpStatus.OK);
+            return ResponseEntity.ok().contentType(contentType).body(media);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,14 +110,12 @@ public class StorageService {
         if(imageStorages.size() > 0) {
             Date now = new Date();
             imageStorages.forEach((cookie, imageStorage) -> {
-                if((imageStorage.getLastTimeModified().getTime() + DELETE_CYCLE) < now.getTime()) {
+                if((imageStorage.getLastTimeModified().getTime() + MAX_TIME_INACTIVE) < now.getTime()) {
                     StorageHandler.getInstance().removeImageStorage(cookie);
-                    GhostfaceApplication.LOGGER.info("CLIENT_REMOVER_TASK: Removed inactive client: " + cookie.substring(0, 5));
-                    StorageHandler.getInstance().printActiveClients();
-                } else {
-                    GhostfaceApplication.LOGGER.info("CLIENT_REMOVER_TASK: Client '" + cookie.substring(0, 5) + "' still active");
+                    GhostfaceApplication.LOGGER.info("Removed inactive client: {}", cookie.substring(0, 10));
                 }
             });
         }
+        StorageHandler.getInstance().printActiveClients();
     }
 }

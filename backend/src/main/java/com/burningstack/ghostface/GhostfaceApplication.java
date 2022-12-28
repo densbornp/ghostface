@@ -1,5 +1,6 @@
 package com.burningstack.ghostface;
 
+import nu.pattern.OpenCV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,5 +12,6 @@ public class GhostfaceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GhostfaceApplication.class, args);
+        OpenCV.loadLocally();
     }
 }
