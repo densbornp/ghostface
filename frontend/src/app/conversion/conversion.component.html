@@ -1,12 +1,12 @@
 <a id="convert"></a>
-<div class="container-lg mt-2">
+<div class="container-lg mt-2 p-2">
     <h2>Conversion</h2>
-    <div class="row justify-content-center">
-        <div class="card mx-5 col-lg-4 col-sm-12">
+    <div class="row justify-content-between p-5">
+        <div class="card col-lg-4 col-sm-12">
             <img
                 src="assets/img/no-image-original.png"
-                style="width: 100%; object-fit: contain;"
-                class="center"
+                style="width: 100%; object-fit: contain"
+                class="my-2"
                 alt=""
                 id="uploadedImage"
             />
@@ -25,12 +25,9 @@
                             type="file"
                             name="imageFile"
                             accept="image/x-png,image/jpeg"
-                            class="custom-file-input"
+                            class="form-control"
                             id="inputFile"
                         />
-                        <label class="custom-file-label" for="inputFile"
-                            >{{choosenFile}}</label
-                        >
                         </div>
                     </div>
                     <br>
@@ -45,7 +42,7 @@
             <img
                 src="assets/img/no-image-tmp.png"
                 style="width: 100%; object-fit: contain;"
-                class="img-fluid"
+                class="my-2"
                 alt=""
                 id="convertedImage"
             />
@@ -62,7 +59,9 @@
                     type="submit"
                     [disabled]="downloadBtnDisabled"
                     >
-                        <i class="fa fa-download"></i> Download
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                    </svg> Download
                     </button>
                     <input type="hidden" name="image" class="imageName" />
                 </form>

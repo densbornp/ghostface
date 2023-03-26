@@ -1,7 +1,11 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("/assets/fonts/OpenSans/OpenSans-webfont.woff");
+}
+
 
 // Color: Ice Infinity
 // https://www.canva.com/colors/color-palettes/ice-infinity/
-
 $primary: #385E72;
 $secondary: #6AABD2;
 $text: #B7CFDC;
@@ -14,13 +18,14 @@ $text-black: black;
 @import "~node_modules/bootstrap/scss/bootstrap";
 
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: "MyFond", sans-serif;
+    font-weight: 500;
     color: #555555;
   }
 
   a {
     text-decoration: none;
-    color: #7cc576;
+    color: $secondary;
   }
 
   a:hover {
@@ -34,7 +39,9 @@ body {
   h4,
   h5,
   h6 {
-    font-family: "Montserrat", sans-serif;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 800;
+    font-style: italic;
   }
 
   @media screen and (max-width: 768px) {
