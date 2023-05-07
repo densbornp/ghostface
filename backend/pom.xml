@@ -9,11 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.burningstack.ghostface</groupId>
-    <artifactId>ghostface</artifactId>
+    <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ghostface</name>
-    <description>Java-Backend for the ghostface website</description>
+    <description>Java-Backend for the GhostFace project</description>
 
     <properties>
         <java.version>11</java.version>
@@ -52,52 +51,25 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
-                    <workingDirectory>../frontend</workingDirectory>
-                    <executable>ng</executable>
-                    <arguments>
-                        <argument>build</argument>
-                    </arguments>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>../frontend/public/</directory>
+                        </resource>
+                    </webResources>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <overwrite>true</overwrite>
-                            <outputDirectory>${basedir}/src/main/resources/public/</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/../frontend/public</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.4</version>
             </plugin>
         </plugins>
     </build>
