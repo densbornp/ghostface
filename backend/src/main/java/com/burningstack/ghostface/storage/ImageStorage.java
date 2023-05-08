@@ -26,7 +26,7 @@ public class ImageStorage {
                     this.fileExtension = "jpg";
                 } else if (extensionString.contains("png")) {
                     this.contentType = MediaType.IMAGE_PNG;
-                    this.fileExtension = "jpg";
+                    this.fileExtension = "png";
                 } else {
                     this.contentType = MediaType.IMAGE_GIF;
                     this.fileExtension = "gif";

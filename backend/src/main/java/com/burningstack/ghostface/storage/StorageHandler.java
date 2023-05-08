@@ -10,11 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * images are temporarily stored
  */
 public class StorageHandler {
-    private ConcurrentHashMap<String, ImageStorage> imageStorage;
+    private final ConcurrentHashMap<String, ImageStorage> imageStorage;
     public static final String COOKIE_NAME = "user_session";
     public static final String COOKIE_PATH = "/";
     private static final String SYMBOLS = "ABCDEFGJKLMNPRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
     private static SecureRandom random;
+    private static final int COOKIE_LENGTH = 2048;
 
     private static StorageHandler storageHandler = null;
 
@@ -55,7 +56,7 @@ public class StorageHandler {
     }
 
     public String createCookie() {
-        char[] buffer = new char[256];
+        char[] buffer = new char[COOKIE_LENGTH];
         for (int i = 0; i < buffer.length; i++) {
             buffer[i] = SYMBOLS.charAt(random.nextInt(SYMBOLS.length()));
         }

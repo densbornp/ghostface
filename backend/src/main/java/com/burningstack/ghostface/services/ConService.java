@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -66,9 +67,8 @@ public class ConService {
      *
      * @param cookie The cookie to assign the right user
      * @param model The OpenCVModel
-     * @throws IOException
      */
-    private void initializeBasicSetup(String cookie, OpenCVModel model) throws IOException {
+    private void initializeBasicSetup(String cookie, OpenCVModel model) {
         this.storageHandler = StorageHandler.getInstance();
         this.imgStorage = storageHandler.getImageStorage(cookie);
         this.bufferedImage = imgStorage.getImage();
@@ -77,7 +77,7 @@ public class ConService {
         this.faceDetector = new CascadeClassifier(model.getPreTrainedModelPath());
         this.scaleFactor = model.getImageScaleFactor();
         this.minNeighbours = model.getMinNeighbours();
-        this.originalImage = bufferedImage2Mat(bufferedImage, imgStorage.getFileExtension());
+        this.originalImage = bufferedImage2Mat(bufferedImage);
         this.minFaceSize = Math.round(originalImage.rows() * 0.1f);
         this.faceDetections = new MatOfRect();
         this.faceDetector.detectMultiScale(originalImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
@@ -89,17 +89,31 @@ public class ConService {
         return baos.toByteArray();
     }
 
-    private Mat bufferedImage2Mat(BufferedImage image, String fileExtension) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(image, fileExtension, byteArrayOutputStream);
-        byteArrayOutputStream.flush();
-        return Imgcodecs.imdecode(new MatOfByte(byteArrayOutputStream.toByteArray()), 0);
+    private Mat bufferedImage2Mat(BufferedImage image) {
+        image = convertTo3ByteBGRType(image);
+        Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
+        byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+        mat.put(0, 0, data);
+        return mat;
     }
 
     private BufferedImage mat2BufferedImage(Mat matrix, String fileExtension) throws IOException {
         MatOfByte mob = new MatOfByte();
-        Imgcodecs.imencode(fileExtension, matrix, mob);
+        Imgcodecs.imencode("." + fileExtension, matrix, mob);
         return ImageIO.read(new ByteArrayInputStream(mob.toArray()));
+    }
+
+    /**
+     * Change the type of bufferedImage to TYPE_3BYTE_BGR
+     * because bufferedImage2Mat may return int[] and that would break the code
+     * @param image The image to be converted
+     * @return The image in the correct format
+     */
+    private static BufferedImage convertTo3ByteBGRType(BufferedImage image) {
+        BufferedImage convertedImage = new BufferedImage(image.getWidth(), image.getHeight(),
+            BufferedImage.TYPE_3BYTE_BGR);
+        convertedImage.getGraphics().drawImage(image, 0, 0, null);
+        return convertedImage;
     }
 
     /**
