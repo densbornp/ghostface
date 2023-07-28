@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class CookieController {
+
+    @Inject
+    private StorageHandler storageHandler;
 
     public CookieController() {
     }
@@ -18,7 +22,6 @@ public class CookieController {
     @PostMapping("/cookie")
     public ResponseEntity<Object> setCookie(@CookieValue(value = "user_session", defaultValue = "") String cookie,
             HttpServletResponse response) {
-        StorageHandler storageHandler = StorageHandler.getInstance();
         if (!cookie.isEmpty() && storageHandler.isClientActive(cookie)) {
             return ResponseEntity.badRequest().body("Cookie already set!");
         }
@@ -29,7 +32,7 @@ public class CookieController {
         newCookie.setPath(StorageHandler.COOKIE_PATH);
         // add cookie to response
         response.addCookie(newCookie);
-        StorageHandler.getInstance().printActiveClients();
+        storageHandler.printActiveClients();
         return ResponseEntity.ok().body("New Cookie added!");
     }
 }

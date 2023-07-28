@@ -1,6 +1,7 @@
 package com.burningstack.ghostface.storage;
 
 import com.burningstack.ghostface.GhostfaceApplication;
+import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,26 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * The StorageHandler handles the HashMap where all the uploaded and converted
  * images are temporarily stored
  */
+@Component
 public class StorageHandler {
     private final ConcurrentHashMap<String, ImageStorage> imageStorage;
     public static final String COOKIE_NAME = "user_session";
     public static final String COOKIE_PATH = "/";
-    private static final String SYMBOLS = "ABCDEFGJKLMNPRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    private static final String CHARS = "ABCDEFGJKLMNPRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$&()*+-/:<=>?@[]^_{}";
     private static SecureRandom random;
     private static final int COOKIE_LENGTH = 2048;
 
-    private static StorageHandler storageHandler = null;
-
     private StorageHandler() {
         imageStorage = new ConcurrentHashMap<>();
-    }
-
-    public static StorageHandler getInstance() {
-        if(storageHandler == null) {
-            storageHandler = new StorageHandler();
-            random = new SecureRandom();
-        }
-        return storageHandler;
+        random = new SecureRandom();
     }
 
     public ConcurrentHashMap<String, ImageStorage> getAllImagesStorages() {
@@ -48,17 +41,17 @@ public class StorageHandler {
     }
 
     public void printActiveClients() {
-        GhostfaceApplication.LOGGER.info("Currently the application is used by: {} users.",  this.imageStorage.size());
+        GhostfaceApplication.LOGGER.info("Currently the application is used by: {} user(s).",  this.imageStorage.size());
     }
 
     public boolean isClientActive(String cookie) {
-        return this.imageStorage.keySet().contains(cookie);
+        return this.imageStorage.containsKey(cookie);
     }
 
     public String createCookie() {
         char[] buffer = new char[COOKIE_LENGTH];
         for (int i = 0; i < buffer.length; i++) {
-            buffer[i] = SYMBOLS.charAt(random.nextInt(SYMBOLS.length()));
+            buffer[i] = CHARS.charAt(random.nextInt(CHARS.length()));
         }
         String cookie = new String(buffer);
         buffer = null;

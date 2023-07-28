@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 public class ConService {
 
+    @Inject
     private StorageHandler storageHandler;
     private ImageStorage imgStorage;
     private BufferedImage bufferedImage;
@@ -71,7 +73,6 @@ public class ConService {
      * @param model The OpenCVModel
      */
     private void initializeBasicSetup(String cookie, OpenCVModel model) {
-        this.storageHandler = StorageHandler.getInstance();
         this.imgStorage = storageHandler.getImageStorage(cookie);
         this.bufferedImage = imgStorage.getImage();
         this.contentType = imgStorage.getContentType();

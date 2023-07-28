@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Inject;
+
 @RestController
 public class ConversionController {
 
+    @Inject
     private ConService conService;
     private static final String VALID_COOKIE_MISSING = "Valid Cookie missing!";
+    @Inject
+    private StorageHandler storageHandler;
 
     public ConversionController() {
-        this.conService = new ConService();
     }
 
     @PostMapping("/convert")
@@ -26,7 +30,7 @@ public class ConversionController {
                                                @RequestParam(value = ParamHelper.PRETRAINED_MODEL, defaultValue = "100") int preTrainedModel,
                                                @RequestParam(value = ParamHelper.CONVERSION_TYPE_PARAM, defaultValue = "1000") int conversionType,
                                                 @RequestParam(value = ParamHelper.IMAGE_SCALE_FACTOR, defaultValue = "1.05") double imageScaleFactor, @RequestParam(value = ParamHelper.MIN_NEIGHBOURS, defaultValue = "3") int minNeighbours) {
-        if (cookie.isEmpty() || !StorageHandler.getInstance().isClientActive(cookie)) {
+        if (cookie.isEmpty() || !storageHandler.isClientActive(cookie)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(VALID_COOKIE_MISSING);
         }
         OpenCVModel model = new OpenCVModel(preTrainedModel, conversionType, imageScaleFactor, minNeighbours);
