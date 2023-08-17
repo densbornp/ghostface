@@ -13,15 +13,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <failOnError>false</failOnError>
                     <filesets>
                         <fileset>
-                            <directory>.</directory>
-                            <includes>
-                                <include>public/**/*.*</include>
-                            </includes>
+                            <directory>/public/</directory>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>
@@ -41,8 +38,6 @@
                                 <argument>build</argument>
                                 <argument>--configuration</argument>
                                 <argument>production</argument>
-                                <argument>--base-href</argument>
-                                <argument>"/frontend/"</argument>
                             </arguments>
                         </configuration>
                         <phase>generate-resources</phase>

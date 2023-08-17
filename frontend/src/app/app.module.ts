@@ -12,6 +12,9 @@ import { HeaderComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HeroComponent } from './hero/hero.component';
+import { CookieModule } from 'ngx-cookie';
+import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -24,12 +27,15 @@ import { HeroComponent } from './hero/hero.component';
     FooterComponent,
     HeaderComponent,
     PageNotFoundComponent,
-    HeroComponent
+    HeroComponent,
+    CookieModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CookieModule.withOptions(),
+    ModalModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

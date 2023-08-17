@@ -30,10 +30,10 @@ export class ConversionComponent implements OnInit {
     formData.append("imageFile", uploadedFile);
     // TODO subscribe gets not triggered
     this.conversionService.uploadFile(formData).subscribe((data: any) => {}, (error: any) => {
-        if (error.value().includes("Cookie missing!")) {
+        if (error.error.includes("Cookie missing!")) {
             alert("Please accept Cookies to use the image convertion function.");
         } else {
-            alert("Upload failed: " + error.value());
+            alert("Upload failed: " + error.error);
         }
         this.infoText = null;
     }, () => {
@@ -44,25 +44,8 @@ export class ConversionComponent implements OnInit {
 
   public downloadImage(event: any) {
     this.conversionService.downloadFile().subscribe((data: any) => {}, (error: any) => {
-        alert("Download ended with an error: " + error.value());
+        alert("Download ended with an error: " + error.error);
         this.infoText = null;
     }, () => {this.infoText = this.INFO_DOWNLOAD;});
   }
-
-  // File appears on select
-/*$("#inputFile").on("change", function () {
-    var cookie = Cookies.get("user_session");
-    if (cookie === undefined) {
-      alert("Please accept Cookies to use the image convertion function.");
-      return;
-    }
-    window.fileName = $(this).val().split("\\").pop();
-    $(this)
-      .siblings(".custom-file-label")
-      .addClass("selected")
-      .html(window.fileName);
-    var form = $("#uploadForm");
-    form.submit();
-  });*/
-
 }

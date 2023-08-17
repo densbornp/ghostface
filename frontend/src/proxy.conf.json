@@ -1,0 +1,22 @@
+{
+    "/cookie": {
+        "target": "http://localhost/cookie",
+        "secure": false
+    },
+    "/upload": {
+      "target": "http://localhost/upload",
+      "secure": false
+    },
+    "/download": {
+        "target": "http://localhost/download",
+        "secure": false
+    },
+    "/image": {
+        "target": "http://localhost/image",
+        "secure": false
+    },
+    "/tmpImage": {
+        "target": "http://localhost/tmpImage",
+        "secure": false
+    }
+}
