@@ -1,6 +1,8 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ConversionService } from '../services/conversion.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CookieModalComponent } from '../cookie-modal/cookie-modal.component';
 
 @Component({
   selector: 'app-conversion',
@@ -15,8 +17,13 @@ export class ConversionComponent implements OnInit {
   INFO_DOWNLOAD: "Download successful!";
   INFO_UPLOAD: "Upload successful!";
   downloadBtnDisabled = true;
+  private config = {
+    animated: true,
+    ignoreBackdropClick: true,
+    'class': 'modal-dialog-centered'
+  };
 
-  constructor(private conversionService: ConversionService) { }
+  constructor(private conversionService: ConversionService, private modalService: BsModalService) { }
 
   ngOnInit(): void {
       this.choosenFile = "Choose file";
@@ -29,16 +36,18 @@ export class ConversionComponent implements OnInit {
     let formData = new FormData();
     formData.append("imageFile", uploadedFile);
     // TODO subscribe gets not triggered
-    this.conversionService.uploadFile(formData).subscribe((data: any) => {}, (error: any) => {
-        if (error.error.includes("Cookie missing!")) {
-            alert("Please accept Cookies to use the image convertion function.");
+    this.conversionService.uploadFile(formData).subscribe(() => {
+        console.log("IN");
+        this.downloadBtnDisabled = false;
+        this.infoText = this.INFO_UPLOAD;
+    }, (error: any) => {
+        console.log("IN_2", error);
+        if (error.status === 422) {
+            this.modalService.show(CookieModalComponent, this.config);
         } else {
             alert("Upload failed: " + error.error);
         }
         this.infoText = null;
-    }, () => {
-        this.downloadBtnDisabled = false;
-        this.infoText = this.INFO_UPLOAD;
     });
   }
 

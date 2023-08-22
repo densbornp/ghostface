@@ -37,11 +37,11 @@ public class StorageService {
         try {
             storageHandler.setImageStorage(cookie, new ImageStorage(ImageIO.read(file.getInputStream()), file.getOriginalFilename()));
             storageHandler.printActiveClients();
-            return ResponseEntity.status(HttpStatus.OK).body("Image successfully uploaded.");
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (IOException e) {
             GhostfaceApplication.LOGGER.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Could not write file!");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     /** Returns the converted image */

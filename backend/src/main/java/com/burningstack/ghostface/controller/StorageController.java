@@ -39,13 +39,12 @@ public class StorageController {
             if (ImageIO.read(file.getInputStream()) != null) {
                 return this.storageService.storeImage(cookie, file);
             } else {
-                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                        .body("The uploaded file is not an image!");
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
             }
         } catch (IOException e) {
             GhostfaceApplication.LOGGER.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected upload error occurred!");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
     @GetMapping("/download")
