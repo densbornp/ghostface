@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { Constants } from './constants';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
+import { CookieService } from './services/cookie.service';
 
 @Component({
   selector: 'app-root',
@@ -25,16 +25,16 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (!this.isCookieAvailable()) {
-            this.showCookieModal();
-        }
+        this.checkCookieAndOpenConsent();
     }
 
     private showCookieModal() {
         this.modalRef = this.modalService.show(CookieModalComponent, this.config);
     }
 
-    private isCookieAvailable() {
-        return this.cookieService.get(Constants.COOKIE);
+    private checkCookieAndOpenConsent() {
+        this.cookieService.isCookieSet().subscribe(() => {
+        }, (error) => {this.showCookieModal();});
+
     }
 }

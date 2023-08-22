@@ -1,22 +1,26 @@
 {
+    "/assets": {
+        "target": "http://localhost",
+        "secure": false
+    },
     "/cookie": {
-        "target": "http://localhost/cookie",
+        "target": "http://localhost",
         "secure": false
     },
     "/upload": {
-      "target": "http://localhost/upload",
+      "target": "http://localhost",
       "secure": false
     },
     "/download": {
-        "target": "http://localhost/download",
+        "target": "http://localhost",
         "secure": false
     },
     "/image": {
-        "target": "http://localhost/image",
+        "target": "http://localhost",
         "secure": false
     },
     "/tmpImage": {
-        "target": "http://localhost/tmpImage",
+        "target": "http://localhost",
         "secure": false
     }
 }
