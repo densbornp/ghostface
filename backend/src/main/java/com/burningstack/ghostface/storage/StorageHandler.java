@@ -3,7 +3,7 @@ package com.burningstack.ghostface.storage;
 import com.burningstack.ghostface.GhostfaceApplication;
 import org.springframework.stereotype.Component;
 
-import java.security.SecureRandom;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -15,13 +15,9 @@ public class StorageHandler {
     private final ConcurrentHashMap<String, ImageStorage> imageStorage;
     public static final String COOKIE_NAME = "user_session";
     public static final String COOKIE_PATH = "/";
-    private static final String CHARS = "ABCDEFGJKLMNPRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$&()*+-/:<=>?@[]^_{}";
-    private static SecureRandom random;
-    private static final int COOKIE_LENGTH = 2048;
 
     private StorageHandler() {
         imageStorage = new ConcurrentHashMap<>();
-        random = new SecureRandom();
     }
 
     public ConcurrentHashMap<String, ImageStorage> getAllImagesStorages() {
@@ -49,12 +45,8 @@ public class StorageHandler {
     }
 
     public String createCookie() {
-        char[] buffer = new char[COOKIE_LENGTH];
-        for (int i = 0; i < buffer.length; i++) {
-            buffer[i] = CHARS.charAt(random.nextInt(CHARS.length()));
-        }
-        String cookie = new String(buffer);
-        buffer = null;
+        UUID uuid = UUID.randomUUID();
+        String cookie = String.valueOf(uuid);
         setImageStorage(cookie, new ImageStorage(null, null));
         return cookie;
     }
