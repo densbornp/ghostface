@@ -1,16 +1,17 @@
 package com.burningstack.ghostface.storage;
 
-import org.springframework.http.MediaType;
+import lombok.Data;
 
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
+@Data
 public class ImageStorage {
     private String fileName;
-    private MediaType contentType;
+    private String contentType;
     private String fileExtension;
     private BufferedImage[] imgBuffer = new BufferedImage[3];
-    private Date lastModified;
+    private Date lastTimeModified;
 
     public ImageStorage(BufferedImage img, String fileName) {
         this.imgBuffer[0] = img; // Original image
@@ -22,18 +23,18 @@ public class ImageStorage {
             if (index > 0) {
                 String extensionString = fileName.substring(index + 1).toLowerCase();
                 if (extensionString.contains("jpg") || extensionString.contains("jpeg")) {
-                    this.contentType = MediaType.IMAGE_JPEG;
+                    this.contentType = "image/jpeg";
                     this.fileExtension = "jpg";
                 } else if (extensionString.contains("png")) {
-                    this.contentType = MediaType.IMAGE_PNG;
+                    this.contentType = "image/png";
                     this.fileExtension = "png";
                 } else {
-                    this.contentType = MediaType.IMAGE_GIF;
+                    this.contentType = "image/gif";
                     this.fileExtension = "gif";
                 }
             }
         }
-        this.lastModified = new Date();
+        this.lastTimeModified = new Date();
     }
 
     public BufferedImage getImage() {
@@ -56,23 +57,7 @@ public class ImageStorage {
         this.imgBuffer[2] = image;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public MediaType getContentType() {
-        return contentType;
-    }
-
-    public String getFileExtension() {
-        return fileExtension;
-    }
-
-    public Date getLastTimeModified() {
-        return lastModified;
-    }
-
     public void setLastTimeModified(Date modified) {
-        this.lastModified = modified;
+        this.lastTimeModified = modified;
     }
 }

@@ -1,112 +1,115 @@
 package com.burningstack.ghostface.services;
 
-import com.burningstack.ghostface.GhostfaceApplication;
 import com.burningstack.ghostface.storage.ImageStorage;
 import com.burningstack.ghostface.storage.StorageHandler;
-import org.springframework.http.*;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import io.quarkus.scheduler.Scheduled;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.imageio.ImageIO;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service
-@EnableScheduling
+@ApplicationScoped
+@Slf4j
 public class StorageService {
 
-    private static final long DELETE_CYCLE = 300000; // 5 min.
+    private static final String DELETE_CYCLE = "5m"; // 5 min.
     private static final long MAX_TIME_INACTIVE = 600000; // 10 min.
-    //private static final long DELETE_CYCLE = 30000; // 30 sec.
-    //private static final long MAX_TIME_INACTIVE = 60000; // 1 min.
+
     @Inject
     private StorageHandler storageHandler;
 
-    public StorageService() {
-    }
+    @Inject
+    private UploadFileService uploadFileService;
 
     /** Stores the uploaded image into an ImageStorage */
-    public ResponseEntity<Object> storeImage(String cookie, MultipartFile file) {
+    public Response storeImage(String cookie, MultipartFormDataInput file) {
         try {
-            storageHandler.setImageStorage(cookie, new ImageStorage(ImageIO.read(file.getInputStream()), file.getOriginalFilename()));
-            storageHandler.printActiveClients();
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } catch (IOException e) {
-            GhostfaceApplication.LOGGER.error(e.getMessage());
+            // Check if uploaded file is image
+            if (ImageIO.read(uploadFileService.getImageAsInputStream(file)) != null) {
+                storageHandler.setImageStorage(cookie, uploadFileService.processUploadedImage(file));
+                storageHandler.printActiveClients();
+                return Response.ok().build();
+            } else {
+                return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
+
     /** Returns the converted image */
-    public ResponseEntity<Object> download(String cookie, HttpServletResponse response) {
+    public Response download(String cookie) {
         try {
             ImageStorage imgStore = storageHandler.getImageStorage(cookie);
             if (imgStore == null || imgStore.getFileName() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+                return Response.status(Response.Status.NOT_FOUND).entity("Could not find file!").build();
             }
             imgStore.setLastTimeModified(new Date());
-            MediaType contentType = imgStore.getContentType();
+            String contentType = imgStore.getContentType();
             BufferedImage img = imgStore.getConvertedImage();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
             storageHandler.printActiveClients();
-            return ResponseEntity.ok().contentType(contentType).body(media);
+            return Response.ok().entity(media).type(contentType).build();
         } catch (IOException e) {
-            GhostfaceApplication.LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected download error occurred!");
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!").build();
     }
 
     /** Returns the original uploaded image */
-    public ResponseEntity<Object> getImage(String cookie) {
+    public Response getImage(String cookie) {
         try {
             ImageStorage imgStore = storageHandler.getImageStorage(cookie);
             if (imgStore == null || imgStore.getFileName() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+                return Response.status(Response.Status.NOT_FOUND).entity("Could not find file!").build();
             }
             BufferedImage img = imgStore.getImage();
-            MediaType contentType = imgStore.getContentType();
+            String contentType = imgStore.getContentType();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
-            return ResponseEntity.ok().contentType(contentType).body(media);
+            return Response.ok().entity(media).type(contentType).build();
         } catch (IOException e) {
-            GhostfaceApplication.LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected download error occurred!");
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!").build();
     }
 
     /** Returns the converted image with the face detection markers */
-    public ResponseEntity<Object> getTmpConvertedImage(String cookie) {
+    public Response getTmpConvertedImage(String cookie) {
         try {
             ImageStorage imgStore = storageHandler.getImageStorage(cookie);
             if (imgStore == null || imgStore.getFileName() == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+                return Response.status(Response.Status.NOT_FOUND).entity("Could not find file!").build();
             }
             BufferedImage img = imgStore.getTemporaryImage();
-            MediaType contentType = imgStore.getContentType();
+            String contentType = imgStore.getContentType();
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
-            return ResponseEntity.ok().contentType(contentType).body(media);
+            return Response.ok().entity(media).type(contentType).build();
         } catch (IOException e) {
-            GhostfaceApplication.LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Could not find file!");
+        return Response.status(Response.Status.NOT_FOUND).entity("Could not find file!").build();
     }
 
     /**
      * Removes all inactive clients after a given period
      */
-    @Scheduled(fixedDelay = DELETE_CYCLE)
+    @Scheduled(every = DELETE_CYCLE)
     public void removeInactiveClients() {
         ConcurrentHashMap<String, ImageStorage> imageStorages = storageHandler.getAllImagesStorages();
         if(!imageStorages.isEmpty()) {
@@ -114,7 +117,7 @@ public class StorageService {
             imageStorages.forEach((cookie, imageStorage) -> {
                 if((imageStorage.getLastTimeModified().getTime() + MAX_TIME_INACTIVE) < now.getTime()) {
                     storageHandler.removeImageStorage(cookie);
-                    GhostfaceApplication.LOGGER.info("Removed inactive client: {}", cookie.substring(0, 10));
+                    log.info("Removed inactive client: {}", cookie.substring(0, 4));
                 }
             });
         }

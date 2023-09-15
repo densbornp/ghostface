@@ -1,7 +1,9 @@
 package com.burningstack.ghostface.model;
 
 import com.burningstack.ghostface.ParamHelper;
+import lombok.Data;
 
+@Data
 public class OpenCVModel {
 
     private int conversionType;
@@ -9,11 +11,11 @@ public class OpenCVModel {
     private double imageScaleFactor;
     private int minNeighbours;
 
-    public OpenCVModel(int preTrainedModel, int conversionType, double imageScaleFactor, int minNeighbours) {
-        setPreTrainedModelPath(preTrainedModel);
-        this.conversionType = conversionType;
-        this.imageScaleFactor = imageScaleFactor;
-        this.minNeighbours = minNeighbours;
+    public OpenCVModel(ConversionModel conversionModel) {
+        setPreTrainedModelPath(conversionModel.getPreTrainedModel());
+        this.conversionType = conversionModel.getConversionType();
+        this.imageScaleFactor = conversionModel.getImageScaleFactor();
+        this.minNeighbours = conversionModel.getMinNeighbours();
     }
 
     private void setPreTrainedModelPath(int preTrainedModelPath) {
@@ -27,21 +29,5 @@ public class OpenCVModel {
         } else if (preTrainedModelPath == ParamHelper.FRONTAL_FACE_ALT_TREE) {
             this.preTrainedModelPath = modelPath + "haarcascade_frontalface_alt_tree.xml";
         }
-    }
-
-    public int getConversionType() {
-        return conversionType;
-    }
-
-    public String getPreTrainedModelPath() {
-        return preTrainedModelPath;
-    }
-
-    public double getImageScaleFactor() {
-        return imageScaleFactor;
-    }
-
-    public int getMinNeighbours() {
-        return minNeighbours;
     }
 }

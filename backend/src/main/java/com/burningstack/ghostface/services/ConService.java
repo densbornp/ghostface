@@ -4,17 +4,15 @@ import com.burningstack.ghostface.ParamHelper;
 import com.burningstack.ghostface.model.OpenCVModel;
 import com.burningstack.ghostface.storage.ImageStorage;
 import com.burningstack.ghostface.storage.StorageHandler;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
@@ -23,14 +21,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@RequestScoped
 public class ConService {
 
     @Inject
     private StorageHandler storageHandler;
     private ImageStorage imgStorage;
     private BufferedImage bufferedImage;
-    private MediaType contentType;
+    private String contentType;
     private CascadeClassifier faceDetector;
     private double scaleFactor;
     private int minNeighbours;
@@ -38,7 +36,7 @@ public class ConService {
     private Mat originalImage;
     private MatOfRect faceDetections;
 
-    public ResponseEntity<Object> convert(String cookie, OpenCVModel model) {
+    public Response convert(String cookie, OpenCVModel model) {
         switch (model.getConversionType()) {
             case ParamHelper.C_TYPE_NONE:
                 return normalDetection(cookie, model);
@@ -127,19 +125,19 @@ public class ConService {
         this.imgStorage.setTemporaryImage(this.mat2BufferedImage(image, this.imgStorage.getFileExtension()));
     }
 
-    private ResponseEntity<Object> normalDetection(String cookie, OpenCVModel model) {
+    private Response normalDetection(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             this.faceDetector.detectMultiScale(originalImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.drawRectangles(this.originalImage);
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(this.originalImage, this.imgStorage.getFileExtension()));
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> grid(String cookie, OpenCVModel model, int color) {
+    private Response grid(String cookie, OpenCVModel model, int color) {
         try {
             double pixelValue = 0.0; // black
             if (color == 1101) {
@@ -165,13 +163,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> hideHalf(String cookie, OpenCVModel model) {
+    private Response hideHalf(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
@@ -182,13 +180,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> edgeDetection(String cookie, OpenCVModel model) {
+    private Response edgeDetection(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
@@ -205,13 +203,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(dst, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(dst, this.imgStorage.getFileExtension()));
             this.drawRectangles(dst);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> hsv(String cookie, OpenCVModel model) {
+    private Response hsv(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
@@ -219,13 +217,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> bitwiseNot(String cookie, OpenCVModel model) {
+    private Response bitwiseNot(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
@@ -233,13 +231,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> bitwiseNotGray(String cookie, OpenCVModel model) {
+    private Response bitwiseNotGray(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
@@ -248,13 +246,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> cartoon(String cookie, OpenCVModel model) {
+    private Response cartoon(String cookie, OpenCVModel model) {
         try {
             // TODO Not working correctly
             this.initializeBasicSetup(cookie, model);
@@ -271,13 +269,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> colorHighlighting(String cookie, OpenCVModel model) {
+    private Response colorHighlighting(String cookie, OpenCVModel model) {
         try {
             // TODO Not working correctly
             this.initializeBasicSetup(cookie, model);
@@ -288,13 +286,13 @@ public class ConService {
             this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private ResponseEntity<Object> blueFilter(String cookie, OpenCVModel model) {
+    private Response blueFilter(String cookie, OpenCVModel model) {
         try {
             // TODO Not working correctly
             this.initializeBasicSetup(cookie, model);
@@ -305,9 +303,9 @@ public class ConService {
             this.faceDetector.detectMultiScale(blueChannel, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(blueChannel, this.imgStorage.getFileExtension()));
             this.drawRectangles(blueChannel);
-            return ResponseEntity.status(HttpStatus.OK).contentType(contentType).body(this.bufferedImageToByteArray());
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
         } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 }
