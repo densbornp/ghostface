@@ -43,6 +43,7 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "../backend/src/main/resources/META-INF/resources",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

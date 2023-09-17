@@ -61,7 +61,7 @@ public class StorageService {
             ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
             storageHandler.printActiveClients();
-            return Response.ok().entity(media).type(contentType).build();
+            return Response.ok().entity(media).type(contentType).header("Content-Disposition", "attachment; filename=" + imgStore.getFileName()).build();
         } catch (IOException e) {
             log.error(e.getMessage());
         }

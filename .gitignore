@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,angular,java-web,visualstudiocode,intellij,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,angular,java-web,visualstudiocode,intellij,eclipse
 
+
+backend/src/main/resources/META-INF/
+
 ### Angular ###
 ## Angular ##
 # compiled output
