@@ -16,4 +16,12 @@ export class ConversionService {
   downloadFile(): Observable<Object> {
       return this.http.get("/download");
   }
+
+  getImage(): Observable<Object> {
+    return this.http.get("/image", { responseType: 'blob' });
+  }
+
+  getTmpImage(): Observable<Object> {
+      return this.http.get("/tmpImage", { responseType: 'blob' });
+  }
 }

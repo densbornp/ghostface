@@ -4,7 +4,7 @@
     <div class="row justify-content-between p-5">
         <div class="card col-lg-5 col-sm-5">
             <img
-                src="assets/img/no-image-original.png"
+                src='{{imagePath | async}}'
                 style="width: 100%; object-fit: contain"
                 class="my-2 card-img-top"
                 alt=""
@@ -36,7 +36,7 @@
         </div>
         <div class="card col-lg-5 col-sm-5">
             <img
-                src="assets/img/no-image-tmp.png"
+                src='{{tmpImagePath | async}}'
                 style="width: 100%; object-fit: contain;"
                 class="my-2 card-img-top"
                 alt=""
@@ -62,12 +62,12 @@
                     </button>
                     <input type="hidden" name="image" class="imageName" />
                 </form>
-                <label *ngIf="infoText"
-                    id="status-label"
-                    style="color: crimson; margin-left: 10px; text-align: center;"
-                    >{{infoText}}</label
-                >
             </div>
+            <span *ngIf="infoText" class="label label-danger"
+                    id="status-label"
+                    style="margin-left: 10px; text-align: center;"
+                    >{{infoText}}</span
+                >
         </div>
         <h5>Info</h5>
         <p>If the converted image is not really recognizable, please try to zoom out (STRG -) or in (STRG +) with your browser.
