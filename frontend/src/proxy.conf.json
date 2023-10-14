@@ -22,5 +22,9 @@
     "/tmpImage": {
         "target": "http://localhost",
         "secure": false
+    },
+    "/convert": {
+        "target": "http://localhost",
+        "secure": false
     }
 }

@@ -26,7 +26,7 @@ public class UploadFileService {
                 MultivaluedMap<String, String> header = inputPart.getHeaders();
                 String fileName = getFileName(header);
                 // Convert the uploaded file to InputStream
-                InputStream inputStream = inputPart.getBody(InputStream.class,null);
+                InputStream inputStream = inputPart.getBody(InputStream.class, null);
                 return new ImageStorage(ImageIO.read(inputStream), fileName);
             } catch (IOException e) {
                 log.error(e.getMessage());
@@ -41,9 +41,8 @@ public class UploadFileService {
         List<InputPart> inputParts = uploadForm.get(ParamHelper.UPLOADED_IMAGE);
         for (InputPart inputPart : inputParts) {
             try {
-                MultivaluedMap<String, String> header = inputPart.getHeaders();
                 // Convert the uploaded file to InputStream
-                return inputPart.getBody(InputStream.class,null);
+                return inputPart.getBody(InputStream.class, null);
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
@@ -61,7 +60,7 @@ public class UploadFileService {
 
                 String[] name = filename.split("=");
 
-                return name[1].trim().replaceAll("\"", "");
+                return name[1].trim().replace("\"", "");
             }
         }
         return "unknown";
