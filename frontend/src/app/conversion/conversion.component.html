@@ -41,32 +41,32 @@
                     <!-- Options -->
                     <select class="form-control-sm" name="conversionType" id="conversionType"
                         (change)="updateConversionType($event.target.value)" [disabled]="convertSectionDisabled">
-                        <option value=1000>None</option>
-                        <option value=1100>Black grid</option>
-                        <option value=1101>White grid</option>
-                        <option value=1200>Hide half</option>
-                        <option value=1300>Edges</option>
-                        <option value=1400>HSV Color</option>
-                        <option value=1500>Invert color</option>
-                        <option value=1501>Invert gray color</option>
-                        <option value=1600>Cartoon</option>
-                        <option value=1700>Highlight black color</option>
-                        <option value=1800>Blue filter</option>
+                        <option value="none">None</option>
+                        <option value="black_grid">Black grid</option>
+                        <option value="white_grid">White grid</option>
+                        <option value="hide_half">Hide half</option>
+                        <option value="edges">Edges</option>
+                        <option value="hsv_color">HSV Color</option>
+                        <option value="invert_color">Invert color</option>
+                        <option value="invert_gray_color">Invert gray color</option>
+                        <option value="cartoon">Cartoon</option>
+                        <option value="highlight_black_color">Highlight black color</option>
+                        <option value="blue_filter">Blue filter</option>
                     </select>
                     <br />
                     <p style="display: inline-block;">Choose cascade type:</p>
                     <select class="form-control-sm" name="preTrainedModel" id="preTrainedModel"
                         (change)="updatePreTrainedModel($event.target.value)" [disabled]="convertSectionDisabled">
-                        <option value="100">Default</option>
-                        <option value="200">Alternative</option>
-                        <option value="300">Alternative 2</option>
-                        <option value="400">Alternative Tree</option>
+                        <option value="default">Default</option>
+                        <option value="alternative">Alternative</option>
+                        <option value="alternative_2">Alternative 2</option>
+                        <option value="alternative_tree">Alternative Tree</option>
                     </select>
                     <br />
                     <label for="minNeighbors">Sensitivity:</label>
                     <div class="slidecontainer">
                         <input type="range" min="0" max="6" value="3" step="1" class="slider" id="minNeighbours"
-                            name="minNeighbours" (change)="updateSensitivityText($event.target.value);"
+                            name="minNeighbours" (change)="updateSensitivityText(+$event.target.value);"
                             [disabled]="convertSectionDisabled" />
                         <output name="outputMinNeighbors" id="outputMinNeighbors">{{minNeighbours}}</output>
                     </div>
@@ -74,7 +74,7 @@
                     <div class="slidecontainer">
                         <input type="range" min="1.01" max="1.4" value="1.05" step="0.01" class="slider"
                             id="imageScaleFactor" name="imageScaleFactor"
-                            (change)="updateScaleText($event.target.value);" [disabled]="convertSectionDisabled" />
+                            (change)="updateScaleText(+$event.target.value);" [disabled]="convertSectionDisabled" />
                         <output name="outputScale" id="outputScale">{{imageScaleFactor}}</output>
                     </div>
                     <br />

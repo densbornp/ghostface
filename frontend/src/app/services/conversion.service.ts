@@ -25,7 +25,7 @@ export class ConversionService {
         return this.http.get("/tmpImage", { responseType: 'blob' });
     }
 
-    convertImage(conversionType: number, preTrainedModel: number,
+    convertImage(conversionType: string, preTrainedModel: string,
         minNeighbours: number, imageScalefactor: number): Observable<Object> {
         return this.http.post("/convert", {conversionType, preTrainedModel, minNeighbours, imageScalefactor}, { responseType: 'blob' });
     }

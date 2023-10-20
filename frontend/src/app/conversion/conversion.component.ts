@@ -29,8 +29,8 @@ export class ConversionComponent implements OnInit {
         ignoreBackdropClick: true,
         'class': 'modal-dialog-centered'
     };
-    conversionType = 1000;
-    preTrainedModel = 100;
+    conversionType = "none";
+    preTrainedModel = "default";
     minNeighbours = 3;
     imageScaleFactor = 1.05;
 
@@ -110,11 +110,11 @@ export class ConversionComponent implements OnInit {
         });
     }
 
-    public updateConversionType(value: number) {
+    public updateConversionType(value: string) {
         this.conversionType = value;
     }
 
-    public updatePreTrainedModel(value: number) {
+    public updatePreTrainedModel(value: string) {
         this.preTrainedModel = value;
     }
 
@@ -136,6 +136,6 @@ export class ConversionComponent implements OnInit {
                 this.infoText = this.INFO_CONVERSION_FAILED;
             }
             this.convertBtnDisabled = false;
-        });
+        }, error => {this.convertBtnDisabled = false;});
     }
 }

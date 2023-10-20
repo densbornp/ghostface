@@ -68,7 +68,7 @@ public class ConService {
     /**
      *
      * @param cookie The cookie to assign the right user
-     * @param model The OpenCVModel
+     * @param model  The OpenCVModel
      */
     private void initializeBasicSetup(String cookie, OpenCVModel model) {
         this.imgStorage = storageHandler.getImageStorage(cookie);
@@ -105,22 +105,24 @@ public class ConService {
     /**
      * Change the type of bufferedImage to TYPE_3BYTE_BGR
      * because bufferedImage2Mat may return int[] and that would break the code
+     *
      * @param image The image to be converted
      * @return The image in the correct format
      */
     private static BufferedImage convertTo3ByteBGRType(BufferedImage image) {
         BufferedImage convertedImage = new BufferedImage(image.getWidth(), image.getHeight(),
-            BufferedImage.TYPE_3BYTE_BGR);
+                BufferedImage.TYPE_3BYTE_BGR);
         convertedImage.getGraphics().drawImage(image, 0, 0, null);
         return convertedImage;
     }
 
     /**
-     *  Draw a bounding box around each face.
+     * Draw a bounding box around each face.
      */
     private void drawRectangles(Mat image) throws IOException {
         for (Rect rect : this.faceDetections.toArray()) {
-            Imgproc.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0));
+            Imgproc.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height),
+                    new Scalar(0, 255, 0));
         }
         this.imgStorage.setTemporaryImage(this.mat2BufferedImage(image, this.imgStorage.getFileExtension()));
     }
@@ -128,19 +130,22 @@ public class ConService {
     private Response normalDetection(String cookie, OpenCVModel model) {
         try {
             this.initializeBasicSetup(cookie, model);
-            this.faceDetector.detectMultiScale(originalImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(originalImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.drawRectangles(this.originalImage);
-            this.imgStorage.setConvertedImage(this.mat2BufferedImage(this.originalImage, this.imgStorage.getFileExtension()));
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
+            this.imgStorage
+                    .setConvertedImage(this.mat2BufferedImage(this.originalImage, this.imgStorage.getFileExtension()));
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 
-    private Response grid(String cookie, OpenCVModel model, int color) {
+    private Response grid(String cookie, OpenCVModel model, String color) {
         try {
             double pixelValue = 0.0; // black
-            if (color == 1101) {
+            if (color.equals(ParamHelper.C_TYPE_GRID_WHITE)) {
                 pixelValue = 255.0; // white
             }
             this.initializeBasicSetup(cookie, model);
@@ -160,10 +165,12 @@ public class ConService {
                     }
                 }
             }
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
@@ -175,12 +182,15 @@ public class ConService {
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
             Mat overlay = this.bufferedImage2Mat(this.bufferedImage);
             double alpha = 0.8;
-            Imgproc.rectangle(overlay, new Point(0, (double) tempImage.height()/2), new Point(tempImage.width(), tempImage.height()), new Scalar(0, 0, 0), -1);
-            Core.addWeighted(overlay, alpha, tempImage, 1 -alpha, 0, tempImage);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            Imgproc.rectangle(overlay, new Point(0, (double) tempImage.height() / 2),
+                    new Point(tempImage.width(), tempImage.height()), new Scalar(0, 0, 0), -1);
+            Core.addWeighted(overlay, alpha, tempImage, 1 - alpha, 0, tempImage);
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
@@ -193,18 +203,20 @@ public class ConService {
             Mat gray = new Mat(tempImage.rows(), tempImage.cols(), tempImage.type());
             Mat edges = new Mat(tempImage.rows(), tempImage.cols(), tempImage.type());
             Mat dst = new Mat(tempImage.rows(), tempImage.cols(), tempImage.type(), new Scalar(0));
-            //Converting the image to Gray
+            // Converting the image to Gray
             Imgproc.cvtColor(tempImage, gray, Imgproc.COLOR_RGB2GRAY);
-            //Blurring the image
+            // Blurring the image
             Imgproc.blur(gray, edges, new Size(3, 3));
-            //Detecting the edges
+            // Detecting the edges
             Imgproc.Canny(edges, edges, 10, 100, 3);
             tempImage.copyTo(dst, edges);
-            this.faceDetector.detectMultiScale(dst, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(dst, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(dst, this.imgStorage.getFileExtension()));
             this.drawRectangles(dst);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -214,11 +226,13 @@ public class ConService {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
             Imgproc.cvtColor(this.originalImage, tempImage, Imgproc.COLOR_RGB2HSV);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -228,11 +242,13 @@ public class ConService {
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
             Core.bitwise_not(this.originalImage, tempImage);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -243,11 +259,13 @@ public class ConService {
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
             Imgproc.cvtColor(this.originalImage, tempImage, Imgproc.COLOR_BGR2GRAY);
             Core.bitwise_not(tempImage, tempImage);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -266,11 +284,13 @@ public class ConService {
             Imgproc.adaptiveThreshold(blur, edges, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 9, 2);
             Imgproc.bilateralFilter(tempImage, color, 9, 300, 300);
             Core.bitwise_and(color, color, tempImage, edges);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -283,11 +303,13 @@ public class ConService {
             Mat gray = new Mat(tempImage.rows(), tempImage.cols(), tempImage.type());
             Imgproc.cvtColor(tempImage, gray, Imgproc.COLOR_BGR2GRAY);
             Imgproc.threshold(gray, tempImage, 150, 255, Imgproc.THRESH_BINARY);
-            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(tempImage, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(tempImage, this.imgStorage.getFileExtension()));
             this.drawRectangles(tempImage);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -300,11 +322,13 @@ public class ConService {
             List<Mat> channels = new ArrayList<>();
             Core.split(tempImage, channels);
             Mat blueChannel = channels.get(0);
-            this.faceDetector.detectMultiScale(blueChannel, faceDetections, scaleFactor, minNeighbours, 0, new Size(minFaceSize, minFaceSize), new Size());
+            this.faceDetector.detectMultiScale(blueChannel, faceDetections, scaleFactor, minNeighbours, 0,
+                    new Size(minFaceSize, minFaceSize), new Size());
             this.imgStorage.setConvertedImage(this.mat2BufferedImage(blueChannel, this.imgStorage.getFileExtension()));
             this.drawRectangles(blueChannel);
-            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType).build();
-        } catch(Exception e) {
+            return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
+                    .build();
+        } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }

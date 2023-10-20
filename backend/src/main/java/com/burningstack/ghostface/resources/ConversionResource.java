@@ -13,7 +13,6 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
 @Path("/")
 public class ConversionResource {
 
