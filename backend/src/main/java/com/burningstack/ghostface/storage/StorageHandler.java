@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * The StorageHandler handles the HashMap where all the uploaded and converted
@@ -18,11 +19,11 @@ public class StorageHandler {
     public static final String COOKIE_NAME = "user_session";
     public static final String COOKIE_PATH = "/";
 
-    private StorageHandler() {
+    public StorageHandler() {
         imageStorage = new ConcurrentHashMap<>();
     }
 
-    public ConcurrentHashMap<String, ImageStorage> getAllImagesStorages() {
+    public ConcurrentMap<String, ImageStorage> getAllImagesStorages() {
         return new ConcurrentHashMap<>(this.imageStorage);
     }
 

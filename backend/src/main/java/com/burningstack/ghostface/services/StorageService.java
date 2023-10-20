@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @ApplicationScoped
 @Slf4j
@@ -46,7 +46,6 @@ public class StorageService {
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 
-
     /** Returns the converted image */
     public Response download(String cookie) {
         try {
@@ -61,11 +60,13 @@ public class StorageService {
             ImageIO.write(img, imgStore.getFileExtension(), bout);
             byte[] media = bout.toByteArray();
             storageHandler.printActiveClients();
-            return Response.ok().entity(media).type(contentType).header("Content-Disposition", "attachment; filename=" + imgStore.getFileName()).build();
+            return Response.ok().entity(media).type(contentType)
+                    .header("Content-Disposition", "attachment; filename=" + imgStore.getFileName()).build();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!").build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!")
+                .build();
     }
 
     /** Returns the original uploaded image */
@@ -84,7 +85,8 @@ public class StorageService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!").build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An unexpected download error occurred!")
+                .build();
     }
 
     /** Returns the converted image with the face detection markers */
@@ -111,11 +113,11 @@ public class StorageService {
      */
     @Scheduled(every = DELETE_CYCLE)
     public void removeInactiveClients() {
-        ConcurrentHashMap<String, ImageStorage> imageStorages = storageHandler.getAllImagesStorages();
-        if(!imageStorages.isEmpty()) {
+        ConcurrentMap<String, ImageStorage> imageStorages = storageHandler.getAllImagesStorages();
+        if (!imageStorages.isEmpty()) {
             Date now = new Date();
             imageStorages.forEach((cookie, imageStorage) -> {
-                if((imageStorage.getLastTimeModified().getTime() + MAX_TIME_INACTIVE) < now.getTime()) {
+                if ((imageStorage.getLastTimeModified().getTime() + MAX_TIME_INACTIVE) < now.getTime()) {
                     storageHandler.removeImageStorage(cookie);
                     log.info("Removed inactive client: {}", cookie.substring(0, 4));
                 }
