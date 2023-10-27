@@ -1,14 +1,13 @@
-import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Constants } from './constants';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
 import { CookieService } from './services/cookie.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
     title: string;
@@ -34,7 +33,7 @@ export class AppComponent implements OnInit {
 
     private checkCookieAndOpenConsent() {
         this.cookieService.isCookieSet().subscribe(() => {
-        }, (error) => {this.showCookieModal();});
+        }, (error) => { this.showCookieModal(); });
 
     }
 }

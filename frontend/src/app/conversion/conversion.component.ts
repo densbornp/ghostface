@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ConversionService } from '../services/conversion.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CookieModalComponent } from '../cookie-modal/cookie-modal.component';
 import { BehaviorSubject } from 'rxjs';
 import { Constants } from '../constants';
+import { CookieModalComponent } from '../cookie-modal/cookie-modal.component';
+import { ConversionService } from '../services/conversion.service';
 
 @Component({
     selector: 'app-conversion',
@@ -37,7 +37,6 @@ export class ConversionComponent implements OnInit {
     constructor(private conversionService: ConversionService, private modalService: BsModalService) { }
 
     ngOnInit(): void {
-        this.choosenFile = Constants.CHOOSE_FILE;
         this.infoText = null;
         this.getUploadedImage();
         this.getTmpImage();
@@ -45,9 +44,10 @@ export class ConversionComponent implements OnInit {
 
     public uploadImage(event: any) {
         let uploadedFile = event.srcElement.files[0];
+        sessionStorage.setItem(Constants.IMAGE_NAME, uploadedFile?.name);
         this.choosenFile = uploadedFile?.name;
         let formData = new FormData();
-        formData.append("imageFile", uploadedFile);
+        formData.append(Constants.UPLOADED_FILE_TAG, uploadedFile);
         this.conversionService.uploadFile(formData).subscribe(() => {
             this.downloadBtnDisabled = false;
             this.convertSectionDisabled = false;
@@ -72,7 +72,10 @@ export class ConversionComponent implements OnInit {
                 let a = document.createElement("a");
                 const url = URL.createObjectURL(file);
                 a.href = url;
-                a.download = "convertedImage." + data.type.slice(6);
+                a.download = sessionStorage.getItem(Constants.IMAGE_NAME);
+                if (sessionStorage.getItem(Constants.IMAGE_NAME) == null) {
+                    a.download = Constants.DEFAULT_CONVERTED_IMAGE_NAME;
+                }
                 document.body.appendChild(a);
                 a.click();
                 setTimeout(function () {
@@ -89,9 +92,15 @@ export class ConversionComponent implements OnInit {
     private getUploadedImage() {
         this.conversionService.getImage().subscribe((data: any) => {
             if (data != null) {
+                if (sessionStorage.getItem(Constants.IMAGE_NAME) != null) {
+                    this.choosenFile = sessionStorage.getItem(Constants.IMAGE_NAME);
+                } else {
+                    this.choosenFile = Constants.CHOOSE_FILE;
+                }
                 // Add the current time to break the image cache
                 this.imagePath.next("/image?" + new Date().getTime());
             } else {
+                this.choosenFile = Constants.CHOOSE_FILE;
                 this.imagePath.next("assets/img/no-image-original.png");
             }
         });
@@ -136,6 +145,6 @@ export class ConversionComponent implements OnInit {
                 this.infoText = this.INFO_CONVERSION_FAILED;
             }
             this.convertBtnDisabled = false;
-        }, error => {this.convertBtnDisabled = false;});
+        }, error => { this.convertBtnDisabled = false; });
     }
 }

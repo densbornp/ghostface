@@ -23,7 +23,8 @@
                 alt="" id="convertedImage" />
             <div class="card-body">
                 <div>
-                    <button class="btn btn-primary" id="btn-download" (click)="downloadImage()" [disabled]="downloadBtnDisabled">
+                    <button class="btn btn-primary" id="btn-download" (click)="downloadImage()"
+                        [disabled]="downloadBtnDisabled">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-download" viewBox="0 0 16 16">
                             <path
@@ -35,7 +36,7 @@
                 </div>
                 <br>
                 <div>
-                    <p style="display: inline-block;">
+                    <p>
                         Choose the type of convertion:
                     </p>
                     <!-- Options -->
@@ -53,8 +54,9 @@
                         <option value="highlight_black_color">Highlight black color</option>
                         <option value="blue_filter">Blue filter</option>
                     </select>
-                    <br />
-                    <p style="display: inline-block;">Choose cascade type:</p>
+                    <br>
+                    <br>
+                    <p>Choose cascade type:</p>
                     <select class="form-control-sm" name="preTrainedModel" id="preTrainedModel"
                         (change)="updatePreTrainedModel($event.target.value)" [disabled]="convertSectionDisabled">
                         <option value="default">Default</option>
@@ -62,7 +64,8 @@
                         <option value="alternative_2">Alternative 2</option>
                         <option value="alternative_tree">Alternative Tree</option>
                     </select>
-                    <br />
+                    <br>
+                    <br>
                     <label for="minNeighbors">Sensitivity:</label>
                     <div class="slidecontainer">
                         <input type="range" min="0" max="6" value="3" step="1" class="slider" id="minNeighbours"
@@ -77,7 +80,7 @@
                             (change)="updateScaleText(+$event.target.value);" [disabled]="convertSectionDisabled" />
                         <output name="outputScale" id="outputScale">{{imageScaleFactor}}</output>
                     </div>
-                    <br />
+                    <br>
                     <button class="btn btn-primary" id="btn-convert" (click)="convertImage()"
                         [disabled]="convertSectionDisabled || convertBtnDisabled">Convert image</button>
                 </div>
