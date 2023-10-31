@@ -15,6 +15,7 @@ import { HeroComponent } from './hero/hero.component';
 import { CookieModule } from 'ngx-cookie';
 import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HeaderComponent,
     PageNotFoundComponent,
     HeroComponent,
-    CookieModalComponent
+    CookieModalComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
