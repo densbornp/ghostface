@@ -3,7 +3,6 @@
   src: url("/assets/fonts/OpenSans/OpenSans-Regular-webfont.woff");
 }
 
-
 // Color: Ice Infinity
 // https://www.canva.com/colors/color-palettes/ice-infinity/
 $primary: #385E72;
@@ -21,31 +20,29 @@ body {
     font-family: "MyFond", sans-serif;
     font-weight: 500;
     color: #555555;
-  }
+}
 
-  a {
+a {
     text-decoration: none;
-    color: $secondary;
-  }
+    color: $text;
+}
 
-  a:hover {
-    color: #9ed49a;
+a:hover {
+    color: $primary;
     text-decoration: none;
-  }
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: "Open Sans", sans-serif;
-    font-weight: 800;
-    font-style: italic;
   }
 
-  @media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) {
     [data-aos-delay] {
-      transition-delay: 0 !important;
+        transition-delay: 0 !important;
     }
-  }
+}
