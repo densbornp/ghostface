@@ -4,6 +4,8 @@ import com.burningstack.ghostface.ParamHelper;
 import com.burningstack.ghostface.model.OpenCVModel;
 import com.burningstack.ghostface.storage.ImageStorage;
 import com.burningstack.ghostface.storage.StorageHandler;
+
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -297,7 +299,6 @@ public class ConService {
 
     private Response colorHighlighting(String cookie, OpenCVModel model) {
         try {
-            // TODO Not working correctly
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
             Mat gray = new Mat(tempImage.rows(), tempImage.cols(), tempImage.type());
@@ -316,16 +317,25 @@ public class ConService {
 
     private Response blueFilter(String cookie, OpenCVModel model) {
         try {
-            // TODO Not working correctly
             this.initializeBasicSetup(cookie, model);
             Mat tempImage = this.bufferedImage2Mat(this.bufferedImage);
+            Mat finalImage = new Mat();
+            List<Mat> bgrChannels = new ArrayList<>();
+            // Split into 3 channels
+            Core.split(tempImage, bgrChannels);
+            // Create a zero Mat
+            Mat zeroMat = Mat.zeros(new Size(tempImage.cols(), tempImage.rows()), 0);
+            // Add only the blue channel
             List<Mat> channels = new ArrayList<>();
-            Core.split(tempImage, channels);
-            Mat blueChannel = channels.get(0);
-            this.faceDetector.detectMultiScale(blueChannel, faceDetections, scaleFactor, minNeighbours, 0,
+            channels.add(0, bgrChannels.get(0));
+            channels.add(1, zeroMat);
+            channels.add(2, zeroMat);
+            // Merge blue channel into final image
+            Core.merge(channels, finalImage);
+            this.faceDetector.detectMultiScale(finalImage, faceDetections, scaleFactor, minNeighbours, 0,
                     new Size(minFaceSize, minFaceSize), new Size());
-            this.imgStorage.setConvertedImage(this.mat2BufferedImage(blueChannel, this.imgStorage.getFileExtension()));
-            this.drawRectangles(blueChannel);
+            this.imgStorage.setConvertedImage(this.mat2BufferedImage(finalImage, this.imgStorage.getFileExtension()));
+            this.drawRectangles(finalImage);
             return Response.status(Response.Status.OK).entity(this.bufferedImageToByteArray()).type(contentType)
                     .build();
         } catch (Exception e) {
