@@ -26,7 +26,6 @@
     "ngx-bootstrap": "^10.3.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",
-    "jquery": "^3.5.1",
     "npm": "^9.6.6",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

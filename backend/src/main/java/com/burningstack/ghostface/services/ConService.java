@@ -1,20 +1,5 @@
 package com.burningstack.ghostface.services;
 
-import com.burningstack.ghostface.ParamHelper;
-import com.burningstack.ghostface.model.OpenCVModel;
-import com.burningstack.ghostface.storage.ImageStorage;
-import com.burningstack.ghostface.storage.StorageHandler;
-
-import io.quarkus.logging.Log;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
-import org.opencv.core.*;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
@@ -22,6 +7,30 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
+
+import com.burningstack.ghostface.ParamHelper;
+import com.burningstack.ghostface.model.OpenCVModel;
+import com.burningstack.ghostface.storage.ImageStorage;
+import com.burningstack.ghostface.storage.StorageHandler;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 @RequestScoped
 public class ConService {

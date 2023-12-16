@@ -16,6 +16,9 @@ import { CookieModule } from 'ngx-cookie';
 import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   declarations: [
@@ -30,12 +33,15 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     PageNotFoundComponent,
     HeroComponent,
     CookieModalComponent,
-    LandingPageComponent
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    TabsModule,
+    TooltipModule,
+    AlertModule,
     CookieModule.withOptions(),
     ModalModule.forRoot()
   ],

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { CookieService } from './services/cookie.service';
 
@@ -11,7 +10,7 @@ import { CookieService } from './services/cookie.service';
 export class AppComponent implements OnInit {
     title: string;
 
-    constructor(private modalService: BsModalService, private cookieService: CookieService) {
+    constructor(private cookieService: CookieService) {
         setTheme('bs5');
         this.title = 'GhostFace - Slash surveillance -'
     }
