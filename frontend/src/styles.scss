@@ -1,8 +1,3 @@
-@font-face {
-  font-family: "Open Sans";
-  src: url("/assets/fonts/OpenSans/OpenSans-Regular-webfont.woff");
-}
-
 // Color: Ice Infinity
 // https://www.canva.com/colors/color-palettes/ice-infinity/
 $primary: #385E72;
@@ -17,8 +12,6 @@ $text-black: black;
 @import "node_modules/bootstrap/scss/bootstrap";
 
 body {
-    font-family: "MyFond", sans-serif;
-    font-weight: 500;
     color: #555555;
 }
 
