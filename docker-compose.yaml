@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ghostface:
+    image: burningstack/ghostface:latest
+    container_name: ghostface
+    ports:
+      - '5250:80'
+    environment:
+      - TZ=Europe/Berlin
+    restart: unless-stopped
+

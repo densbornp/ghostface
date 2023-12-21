@@ -1,72 +1,60 @@
-<section id="info" class="info-bg" style="background-color: whitesmoke">
-  <div class="container">
-
-    <div class="section-title">
-      <h2>Information</h2>
-      <p>To get a face detection resistant image you have to consider a couple of important points.</p>
-      <p>The results of the different methods very a lot dependent of the image size and color.
-        Before downloading the new image it is highly recommended to test the resistancy against all
-        available cascades. Each cascade is a model trained with different input values. Additionally you shoud try to test the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
-        at "1" and the <a href="#" style="cursor: help;"  onclick="return false;" data-toggle="tooltip" title="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible.
-        That causes the algorithm to detect way more False-Positives, but we want to be sure that your face will not be detected under most if not all circumstances.
-        Thus you can be sure that your image will really be resistant against the Viola-Jones Framework. If your face gets detected through only one of the Cascades, please try a different convertion method.
-        This method will not protect your image. More details and the used cascades can be fund here:
-        <br>
-        <a target="_blank" rel="noopener noreferrer" href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html#cascadeclassifier-detectmultiscale">OpenCV documentation</a>
-        or <a target="_blank" rel="noopener noreferrer" href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a>
-        <p>If there are any questions left, check out our <a href="faq.html">FAQ</a> site.</p>
-        <p><b>The size of your image should not exceed 5MB !</b></p>
-        <p><b>Image convertion takes ~ 2 - 20 sec.</b></p>
-        <p style="color: crimson;"><b>Disclaimer:</b></p>
-        <p style="color: crimson;">There is no 100% guarantee that the converted image is face detection resistant against all kind of face detection frameworks!</p>
-      <p>Description of the available methods:</p>
-
-      <table>
-        <tr>
-          <th>Method</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td>Hide half</td>
-          <td>Hides the lower part of the image behind a black rectangle with an alpha of 80%</td>
-        </tr>
-        <tr>
-          <td>Black grid</td>
-          <td>Every 2nd pixel of the image will be black</td>
-        </tr>
-        <tr>
-          <td>White grid</td>
-          <td>Every 2nd pixel of the image will be white</td>
-        </tr>
-        <tr>
-          <td>Edges</td>
-          <td>Only detected edges of the image will be displayed</td>
-        </tr>
-        <tr>
-          <td>HSV Color</td>
-          <td>Changes the color scheme of the image to <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></td>
-        </tr>
-        <tr>
-          <td>Invert color</td>
-          <td>Inverts every pixel of the image</td>
-        </tr>
-        <tr>
-          <td>Invert gray color</td>
-          <td>Converts the image into a grayscale image and inverts every pixel of it</td>
-        </tr>
-        <tr>
-          <td>Cartoon</td>
-          <td>Cartoonizes the image</td>
-        </tr>
-        <tr>
-          <td>Color highlighting</td>
-          <td>Converts a threshold of white color to black and highlights it</td>
-        </tr>
-        <tr>
-          <td>Blue filter</td>
-          <td>Shows only the blue channel of the image</td>
-        </tr>
-      </table>
+<a id="info"></a>
+<div class="container-lg mt-2">
+    <h2>General Information</h2>
+    <div class="row">
+        <div class="col-sm section">
+            <p>This project was originally developed as a bachelor's thesis and represents a concept for protection against the Viola-Jones algorithm. </p>
+            <p>To get a face detection resistant image you have to consider a couple of important points.</p>
+            <p>The results of the different methods very a lot dependent of the image size and color.
+            <b>Before downloading the new image it is highly recommended to test the resistancy against all
+            available cascades.</b> Each cascade is a model trained with different input values. Additionally you shoud try to test the <a href="#" style="cursor: help;"  onclick="return false;" tooltip="The Sensitivity regulates how sensitive the used Framework OpenCV will classify a examined window as a face.">Sensitivity</a>
+            at "1" and the <a href="#" style="cursor: help;"  onclick="return false;" tooltip="The Scale-Factor regulates how exact the used Framework OpenCV will examine the original image. E.g. the value 1.01 means, that a image pyramid will be build up in 1% steps.">Scale-Factor</a> at the lowest level possible.
+        </div>
+        <div class="col-sm section">
+            <p>That causes the algorithm to detect way more False-Positives, but we want to be sure that your face will not be detected under most if not all circumstances.
+                Thus you can be sure that your image will really be resistant against the Viola-Jones Framework. If your face gets detected through only one of the Cascades, please try a different conversion method.
+                This method will not protect your image.</p>
+        </div>
     </div>
-  </div>
-</section>
+    <div class="row">
+        <div class="col-sm">
+            <p><b>The size of your image should not exceed 5MB !</b></p>
+            <p><b>Image conversion takes ~ 2 - 20 sec.</b></p>
+        </div>
+        <div class="col-sm">
+            <p>More details and the used cascades can be fund here:<br>
+                <a target="_blank" rel="noopener noreferrer" href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html#cascadeclassifier-detectmultiscale">OpenCV documentation</a>
+                or <a target="_blank" rel="noopener noreferrer" href="https://github.com/opencv/opencv/tree/master/data/haarcascades">Cascades</a></p>
+                <p>If there are any questions left, check out our <a href="/faq">FAQ</a> site.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <h4 style="color: crimson;"><b>Disclaimer:</b></h4>
+            <p style="color: crimson;">There is no 100% guarantee that the converted image is face detection resistant against all kind of face detection frameworks!</p>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h2>Available conversion methods</h2>
+        <div class="card mt-3">
+            <div class="card-body">
+                <tabset>
+                    <tab heading="Hide half"><br><p>Hides the lower part of the image behind a black rectangle with an alpha of 80%</p></tab>
+                    <tab heading="Grid">
+                        <br><p>Black grid: Every 2nd pixel of the image will be black.</p>
+                        <p>White grid: Every 2nd pixel of the image will be white</p>
+                    </tab>
+                    <tab heading="Edges"><br><p>Only detected edges of the image will be displayed</p></tab>
+                    <tab heading="HSV Color"><br><p>Changes the color scheme of the image to <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV</a></p></tab>
+                    <tab heading="Invert color">
+                        <br><p>Invert color: Inverts every pixel of the image</p>
+                        <p>Invert gray color: Converts the image into a grayscale image and inverts every pixel of it</p>
+                    </tab>
+                    <tab heading="Cartoon"><br><p>Cartoonizes the image</p></tab>
+                    <tab heading="Color highlighting"><br><p>Converts a threshold of white color to black and highlights it</p></tab>
+                    <tab heading="Blue filter"><br><p>Shows only the blue channel of the image</p></tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+</div>

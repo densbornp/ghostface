@@ -1,168 +1,99 @@
-<section id="conversion" class="about">
-  <div class="container">
-    <div class="section-title">
-      <h2>Protect your privacy!</h2>
-      <p>
-        Upload an image of yourself and you'll get a face detection
-        resistant image back.
-      </p>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-6">
-        <div>
-          <img
-            src="assets/img/no-image-original.png"
-            style="width: 100%; object-fit: contain;"
-            class="center"
-            alt=""
-            id="uploadedImage"
-          />
-        </div>
-        <br />
-        <form
-          action="/upload"
-          method="POST"
-          enctype="multipart/form-data"
-          name="uploadForm"
-          id="uploadForm"
-          (change)="uploadImage($event)"
-        >
-          <div class="input-group">
-            <div class="custom-file">
-              <input
-                type="file"
-                name="imageFile"
-                accept="image/x-png,image/jpeg"
-                class="custom-file-input"
-                id="inputFile"
-              />
-              <label class="custom-file-label" for="inputFile"
-                >{{choosenFile}}</label
-              >
+<a id="convert"></a>
+<div class="container-lg mt-2 p-2">
+    <h2>Conversion</h2>
+    <div class="row justify-content-between p-5">
+        <div class="card col-sm-5" style="height: fit-content;">
+            <img src='{{imagePath | async}}' style="width: 100%; object-fit: contain" class="my-2 card-img-top" alt=""
+                id="uploadedImage" />
+            <div class="card-body">
+                <form action="/upload" method="POST" enctype="multipart/form-data" name="uploadForm" id="uploadForm"
+                    (change)="uploadImage($event)">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" name="imageFile" accept="image/x-png,image/jpeg" class="form-control"
+                                id="inputFile" />
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                <h5>Info</h5>
+                <p>If the converted image is not really recognizable, please try to zoom out (STRG -) or in (STRG +) with your
+                    browser.
+                    The converted image will always look correct when downloaded, regardless of the browser settings.
+                </p>
             </div>
-          </div>
-          <br>
-          <h4>Info</h4>
-          <p>If the converted image is not really recognizable, please try to zoom out (STRG -) or in (STRG +) with your browser.
-            The converted image will always look correct when downloaded, regardless of the browser settings.
-          </p>
-        </form>
-      </div>
-
-      <div class="col-lg-6 pt-4 pt-lg-0 content">
-        <div>
-          <img
-            src="assets/img/no-image-tmp.png"
-            style="width: 100%; object-fit: contain;"
-            class="img-fluid"
-            alt=""
-            id="convertedImage"
-          />
         </div>
-        <br />
-        <div>
-          <form
-            action="/download"
-            method="GET"
-            name="downloadForm"
-            id="downloadForm"
-          >
-            <button
-              class="btn"
-              id="btn-download"
-              type="submit"
-              style="float: left;"
-              [disabled]="downloadBtnDisabled"
-            >
-              <i class="fa fa-download"></i> Download
-            </button>
-            <input type="hidden" name="image" class="imageName" />
-          </form>
-          <label *ngIf="infoText"
-            id="status-label"
-            style="color: crimson; margin-left: 10px; text-align: center;"
-            >{{infoText}}</label
-          >
+        <div class="col-md mt-2 mb-2"></div>
+        <div class="card col-sm-5">
+            <img src='{{tmpImagePath | async}}' style="width: 100%; object-fit: contain;" class="my-2 card-img-top"
+                alt="" id="convertedImage" />
+            <div class="card-body">
+                <div>
+                    <button class="btn btn-primary" id="btn-download" (click)="downloadImage()"
+                        [disabled]="downloadBtnDisabled">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                        </svg> Download
+                    </button>
+                </div>
+                <br>
+                <div>
+                    <p>
+                        Choose the type of conversion:
+                    </p>
+                    <!-- Options -->
+                    <select class="form-control-sm" name="conversionType" id="conversionType"
+                        (change)="updateConversionType($event.target.value)" [disabled]="convertSectionDisabled">
+                        <option value="none">None</option>
+                        <option value="black_grid">Black grid</option>
+                        <option value="white_grid">White grid</option>
+                        <option value="hide_half">Hide half</option>
+                        <option value="edges">Edges</option>
+                        <option value="hsv_color">HSV Color</option>
+                        <option value="invert_color">Invert color</option>
+                        <option value="invert_gray_color">Invert gray color</option>
+                        <option value="cartoon">Cartoon</option>
+                        <option value="highlight_black_color">Highlight black color</option>
+                        <option value="blue_filter">Blue filter</option>
+                    </select>
+                    <br>
+                    <br>
+                    <p>Choose cascade type:</p>
+                    <select class="form-control-sm" name="preTrainedModel" id="preTrainedModel"
+                        (change)="updatePreTrainedModel($event.target.value)" [disabled]="convertSectionDisabled">
+                        <option value="default">Default</option>
+                        <option value="alternative">Alternative</option>
+                        <option value="alternative_2">Alternative 2</option>
+                        <option value="alternative_tree">Alternative Tree</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="minNeighbors">Sensitivity:</label>
+                    <div class="slidecontainer">
+                        <input type="range" min="0" max="6" value="3" step="1" class="slider" id="minNeighbours"
+                            name="minNeighbours" (change)="updateSensitivityText(+$event.target.value);"
+                            [disabled]="convertSectionDisabled" />
+                        <output name="outputMinNeighbors" id="outputMinNeighbors">{{minNeighbours}}</output>
+                    </div>
+                    <label for="scaleFactor" id="textScale">Scale-Factor:</label>
+                    <div class="slidecontainer">
+                        <input type="range" min="1.01" max="1.4" value="1.05" step="0.01" class="slider"
+                            id="imageScaleFactor" name="imageScaleFactor"
+                            (change)="updateScaleText(+$event.target.value);" [disabled]="convertSectionDisabled" />
+                        <output name="outputScale" id="outputScale">{{imageScaleFactor}}</output>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" id="btn-convert" (click)="convertImage()"
+                        [disabled]="convertSectionDisabled || convertBtnDisabled">Convert image</button>
+                </div>
+                <br>
+                <p *ngIf="infoText" class="label label-danger" id="status-label"
+                    style="margin-left: 10px; text-align: center;">{{infoText}}</p>
+            </div>
         </div>
-        <br />
-        <form
-          action="/convert"
-          method="POST"
-          enctype="multipart/form-data"
-          name="convertForm"
-          id="convertForm"
-        >
-          <p style="display: inline-block;">
-            Choose the type of convertion:
-          </p>
-          <!-- Options -->
-          <select name="options" id="options" disabled>
-            <option value="none">None</option>
-            <option value="hide-half">Hide half</option>
-            <option value="blackgrid">Black grid</option>
-            <option value="whitegrid">White grid</option>
-            <option value="edges">Edges</option>
-            <option value="hsv">HSV Color</option>
-            <option value="bitwise-not">Invert color</option>
-            <option value="bitwise-not-gray">Invert gray color</option>
-            <option value="cartoon">Cartoon</option>
-            <option value="color-highlighting">Highlight black color</option>
-            <option value="blue-filter">Blue filter</option>
-          </select>
-          <br />
-          <p style="display: inline-block;">Choose cascade type:</p>
-          <select name="cascade_options" id="cascade_options" disabled>
-            <option value="haar">Default</option>
-            <option value="haar-alt">Alternative</option>
-            <option value="haar-alt2">Alternative 2</option>
-            <option value="haar-alt-tree">Alternative Tree</option>
-          </select>
-          <br />
-          <label for="minNeighbors">Sensitivity:</label>
-          <div class="slidecontainer">
-            <input
-              type="range"
-              min="0"
-              max="6"
-              value="3"
-              step="1"
-              class="slider"
-              id="minNeighbors"
-              name="minNeighbors"
-              onchange="updateSensitivityText(this.value);"
-              disabled
-            />
-            <output name="outputMinNeighbors" id="outputMinNeighbors"
-              >3</output
-            >
-          </div>
-          <label for="scaleFactor" id="textScale">Scale-Factor:</label>
-          <div class="slidecontainer">
-            <input
-              type="range"
-              min="1.01"
-              max="1.4"
-              value="1.05"
-              step="0.01"
-              class="slider"
-              id="scaleFactor"
-              name="scaleFactor"
-              onchange="updateScaleText(this.value);"
-              disabled
-            />
-            <output name="outputScale" id="outputScale">1.05</output>
-          </div>
-          <br />
-          <input type="hidden" name="imageName" class="imageName" />
-          <input
-            id="btn-submit"
-            type="submit"
-            value="Convert image"
-            disabled
-          />
-        </form>
-      </div>
     </div>
-  </div>
-</section>
+</div>

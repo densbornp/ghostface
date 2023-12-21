@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 529 119" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-23.2339,-23.4079)">
+        <g id="Variation-1" serif:id="Variation 1" transform="matrix(1,0,0,1,-23.0536,-693.169)">
+            <g transform="matrix(0.202879,0,0,0.177857,19.2369,704.72)">
+                <path d="M400,66.667C253.711,66.667 133.333,187.044 133.333,333.333L133.333,733.333L233.333,600L300,733.333L400,600L500,733.333L566.667,600L666.667,733.333L666.667,333.333C666.667,187.044 546.289,66.667 400,66.667ZM333.333,400C333.333,418.286 318.286,433.333 300,433.333C281.714,433.333 266.667,418.286 266.667,400L266.667,333.333C266.667,315.047 281.714,300 300,300C318.286,300 333.333,315.047 333.333,333.333L333.333,400ZM533.333,400C533.333,418.286 518.286,433.333 500,433.333C481.714,433.333 466.667,418.286 466.667,400L466.667,333.333C466.667,315.047 481.714,300 500,300C518.286,300 533.333,315.047 533.333,333.333L533.333,400Z" style="fill:rgb(56,94,114);fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,-82.111,-284.524)">
+                <g transform="matrix(1,0,0,1,-167.739,466.804)">
+                    <g transform="matrix(96,0,0,96,827.512,611.781)">
+                    </g>
+                    <text x="417.637px" y="611.781px" style="font-family:'Impact', sans-serif;font-stretch:condensed;font-size:96px;fill:rgb(106,171,210);">GhostFace</text>
+                </g>
+                <g transform="matrix(1.31245,0,0,1,-517.902,433.925)">
+                    <g transform="matrix(36,0,0,36,895.797,685.15)">
+                    </g>
+                    <text x="586.949px" y="685.15px" style="font-family:'Impact', sans-serif;font-stretch:condensed;font-size:36px;fill:rgb(183,207,220);">- Slash sur<tspan x="741.953px 757.685px " y="685.15px 685.15px ">ve</tspan>illance -</text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
