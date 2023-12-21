@@ -3,6 +3,8 @@ version: '3'
 services:
   ghostface:
     image: burningstack/ghostface:latest
+    # Use this if you want to build the image yourself
+    # build: .
     container_name: ghostface
     ports:
       - '5250:80'
