@@ -1,3 +1,67 @@
-# GhostFace
+![GhostFace Logo](frontend/src/assets/img/ghostface_logo.png)
 
-This is GhostFace, a website where user can upload images of their faces and get face detection resistant images back.
+GhostFace is a web application designed to safeguard your privacy by making facial detection more challenging for algorithms like Viola-Jones. This project empowers users to upload their facial images and apply techniques that resist detection by the Viola-Jones algorithm.
+
+## Features
+**Image Upload**: Easily upload your facial image to the GhostFace platform.
+**Viola-Jones Resistance**: Apply filters and modifications to make your face detection-resistant against the Viola-Jones algorithm.
+**Privacy Enhancement**: Protect your identity and privacy by implementing alterations that disrupt common facial recognition techniques.
+**Simple Interface**: User-friendly design for effortless navigation and use.
+
+#### How It Works
+GhostFace utilizes image manipulation techniques to alter facial features. By making subtle changes, GhostFace aims to confuse the Viola-Jones algorithm, thereby making it more challenging for facial recognition systems to detect and identify faces accurately.
+
+## Getting Started
+To use GhostFace locally, follow these steps:
+
+### Run it manually: 
+Download and install the newset [NodeJS](https://nodejs.org/) version
+Also install a [Java JDK](https://jdk.java.net/) >= 11 + [Maven](https://maven.apache.org/download.cgi)
+
+Clone the Repository: 
+```
+git clone https://github.com/densbornp/ghostface.git
+```
+
+Navigate to the Directory: cd ghostface
+
+Run the Application: 
+1. Switch the directory to ghostface/frontend and execute:
+```
+npm install -g @angular/cli && npm install
+```
+2. Switch back to ghostface and execute: 
+```
+mvn clean install
+```
+3. Switch to ghostface/backend and start the application with `./mvnw quarkus:dev`
+
+### Easy usage via Docker
+Donwload and install [Docker](https://www.docker.com/products/docker-desktop/)
+Use the docker-compose.yaml file in the GhostFace project to automatically build a new container: `
+``` 
+docker-compose up -d
+```
+The application should then be reachable on localhost:5250
+
+## Built With
+
+Frontend:
+- `Angular (v15.2.9)`
+- `Bootstrap (v5.3.1)`
+- `ngx-bootstrap (v10.3.0)`
+- `ngx-cookie (v6.0.1)`
+
+Backend:
+- `Quarkus (v3.3.3)`
+- `Maven (v3.9.6)`
+- `Java (v1.8)`
+
+## Contributing
+Contributions are welcome! If you have suggestions, ideas for improvements, or want to report issues, please feel free to create an issue or submit a pull request. We appreciate your input and support in making GhostFace better.
+
+## Disclaimer
+**GhostFace aims to explore techniques to mitigate facial recognition algorithms. However, it's important to note that no system can guarantee complete anonymity or protection against all recognition algorithms. This project is for educational and experimental purposes and should not be relied upon as a foolproof method for privacy.**
+
+# License
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
