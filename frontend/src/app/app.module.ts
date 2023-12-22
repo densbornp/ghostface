@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FaqComponent } from './faq/faq.component';
-import { PolicyComponent } from './policy/policy.component';
 import { ContactComponent } from './contact/contact.component';
 import { InfoComponent } from './info/info.component';
 import { ConversionComponent } from './conversion/conversion.component';
@@ -24,7 +23,6 @@ import { AlertModule } from 'ngx-bootstrap/alert';
   declarations: [
     AppComponent,
     FaqComponent,
-    PolicyComponent,
     ContactComponent,
     InfoComponent,
     ConversionComponent,
