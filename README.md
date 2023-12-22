@@ -3,10 +3,12 @@
 GhostFace is a web application designed to safeguard your privacy by making facial detection more challenging for algorithms like Viola-Jones. This project empowers users to upload their facial images and apply techniques that resist detection by the Viola-Jones algorithm.
 
 ## Features
-**Image Upload**: Easily upload your facial image to the GhostFace platform.
-**Viola-Jones Resistance**: Apply filters and modifications to make your face detection-resistant against the Viola-Jones algorithm.
-**Privacy Enhancement**: Protect your identity and privacy by implementing alterations that disrupt common facial recognition techniques.
-**Simple Interface**: User-friendly design for effortless navigation and use.
+- **Image Upload**: Easily upload your facial image to the GhostFace platform.
+- **Viola-Jones Resistance**: Apply filters and modifications to make your face detection-resistant against the Viola-Jones algorithm.
+- **Privacy Enhancement**: Protect your identity and privacy by implementing alterations that disrupt common facial recognition techniques.
+- **Simple Interface**: User-friendly design for effortless navigation and use.
+
+[Screenshots](/docs/Screenshots.md)
 
 #### How It Works
 GhostFace utilizes image manipulation techniques to alter facial features. By making subtle changes, GhostFace aims to confuse the Viola-Jones algorithm, thereby making it more challenging for facial recognition systems to detect and identify faces accurately.
