@@ -56,6 +56,7 @@ Frontend:
 Backend:
 - `Quarkus (v3.3.3)`
 - `Maven (v3.9.6)`
+- `OpenCV openpnp (v4.6.0-0)`
 - `Java (v1.8)`
 
 ## Contributing
