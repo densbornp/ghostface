@@ -31,7 +31,7 @@ Navigate to the Directory: cd ghostface
 Run the Application: 
 1. Switch the directory to ghostface/frontend and execute:
 ```
-npm install -g @angular/cli && npm install
+npm install -g @angular/cli && npm install && npm run build
 ```
 2. Switch back to ghostface and execute: 
 ```
