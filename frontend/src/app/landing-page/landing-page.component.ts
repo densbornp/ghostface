@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CookieModalComponent } from '../cookie-modal/cookie-modal.component';
 import { CookieService } from '../services/cookie.service';
@@ -15,12 +15,19 @@ export class LandingPageComponent {
         ignoreBackdropClick: true,
         'class': 'modal-dialog-centered'
     };
+    footerHeight: number;
 
     constructor(private modalService: BsModalService, private cookieService: CookieService) {
     }
 
     ngOnInit(): void {
         this.checkCookieAndOpenConsent();
+        this.footerHeight = document.getElementById('footer').offsetHeight;
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.footerHeight = document.getElementById('footer').offsetHeight;
     }
 
     private showCookieModal() {

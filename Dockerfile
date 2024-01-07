@@ -16,7 +16,7 @@ RUN wget http://archive.apache.org/dist/maven/maven-3/"$MAVEN_VERSION"/binaries/
 RUN mkdir /opt/ghostface
 COPY . /opt/ghostface
 WORKDIR /opt/ghostface/frontend
-RUN npm install -g @angular/cli && npm install
+RUN npm install -g @angular/cli && npm install && npm run build
 WORKDIR /opt/ghostface
 RUN mvn clean install
 WORKDIR /opt/ghostface/backend
