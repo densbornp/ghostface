@@ -47,20 +47,6 @@ docker-compose up -d
 ```
 The application should then be reachable on localhost:5250
 
-## Built With
-
-Frontend:
-- `Angular (v15.2.9)`
-- `Bootstrap (v5.3.1)`
-- `ngx-bootstrap (v10.3.0)`
-- `ngx-cookie (v6.0.1)`
-
-Backend:
-- `Quarkus (v3.3.3)`
-- `Maven (v3.9.6)`
-- `OpenCV openpnp (v4.6.0-0)`
-- `Java (v1.8)`
-
 ## Contributing
 Contributions are welcome! If you have suggestions, ideas for improvements, or want to report issues, please feel free to create an issue or submit a pull request. We appreciate your input and support in making GhostFace better.
 

@@ -1,26 +1,53 @@
-FROM ubuntu:22.04
-# Install NodeJs and Java
-RUN apt-get update && apt-get install curl -y && apt-get clean && curl -fsSL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
-RUN bash /tmp/nodesource_setup.sh
-RUN apt-get update && apt-get install nodejs openjdk-11-jdk wget -y && apt-get clean
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
-# Add Maven dependencies
-ENV MAVEN_VERSION 3.9.6
-ENV MAVEN_HOME /usr/lib/mvn
-ENV PATH $MAVEN_HOME/bin:$PATH
-RUN wget http://archive.apache.org/dist/maven/maven-3/"$MAVEN_VERSION"/binaries/apache-maven-"$MAVEN_VERSION"-bin.tar.gz && \
-  tar -zxvf apache-maven-"$MAVEN_VERSION"-bin.tar.gz && \
-  rm apache-maven-"$MAVEN_VERSION"-bin.tar.gz && \
-  mv apache-maven-"$MAVEN_VERSION" /usr/lib/mvn
-# Create directory for the app
-RUN mkdir /opt/ghostface
-COPY . /opt/ghostface
-WORKDIR /opt/ghostface/frontend
-RUN npm install -g @angular/cli && npm install && npm run build
-WORKDIR /opt/ghostface
-RUN mvn clean install
-WORKDIR /opt/ghostface/backend
-# Clean mvnw file from spaces and CR characters
-RUN sed -i 's/\r$//' mvnw
+# Use a more specific base image
+FROM eclipse-temurin:17-jdk-jammy AS build
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set up Maven
+ENV MAVEN_VERSION=3.9.9
+ENV MAVEN_HOME=/usr/share/maven
+ENV PATH=${MAVEN_HOME}/bin:${PATH}
+RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    | tar xzf - -C /usr/share \
+    && mv /usr/share/apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} \
+    && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn
+
+# Set working directory
+WORKDIR /app
+
+# Copy source code
+COPY . .
+
+# Install dependencies and build frontend
+WORKDIR /app/frontend
+RUN npm ci && \
+    npm run build
+
+# Build backend
+WORKDIR /app/backend
+RUN ./mvnw package -DskipTests
+
+# Final stage
+FROM eclipse-temurin:17-jre-jammy
+
+# Copy built artifacts from the build stage
+COPY --from=build /app/backend/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=build /app/backend/target/quarkus-app/*.jar /deployments/
+COPY --from=build /app/backend/target/quarkus-app/app/ /deployments/app/
+COPY --from=build /app/backend/target/quarkus-app/quarkus/ /deployments/quarkus/
+
+# Copy the haarcascades directory
+COPY --from=build /app/backend/haarcascades /deployments/haarcascades
+
+WORKDIR /deployments
+
+# Expose Port
 EXPOSE 80
-ENTRYPOINT ./mvnw quarkus:dev
+
+# Set the entrypoint to run the application
+ENTRYPOINT ["java", "-jar", "quarkus-run.jar"]
