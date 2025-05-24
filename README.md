@@ -14,6 +14,9 @@ GhostFace is a web application designed to safeguard your privacy by making faci
 GhostFace utilizes image manipulation techniques to alter facial features. By making subtle changes, GhostFace aims to confuse the Viola-Jones algorithm, thereby making it more challenging for facial recognition systems to detect and identify faces accurately.
 The website saves three versions of your uploaded image in the RAM and never writes them out to a disk. The original file, the converted image with the detections visualized and the converted image itself. After ~10 minutes of user inactivity, the website deletes all images assigned to a user.
 
+#### Try it yourself
+[https://ghostface.burningstack.com](https://ghostface.burningstack.com)
+
 ## Getting Started
 To use GhostFace locally, follow these steps:
 
