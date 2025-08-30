@@ -1,9 +1,9 @@
 # Use a more specific base image
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM eclipse-temurin:21-jdk-jammy AS build
 
 # Install Node.js and npm
 RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -25,15 +25,14 @@ COPY . .
 
 # Install dependencies and build frontend
 WORKDIR /app/frontend
-RUN npm ci && \
-    npm run build
+RUN npm install -g pnpm && pnpm run build
 
 # Build backend
 WORKDIR /app/backend
 RUN ./mvnw package -DskipTests
 
 # Final stage
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 
 # Copy built artifacts from the build stage
 COPY --from=build /app/backend/target/quarkus-app/lib/ /deployments/lib/

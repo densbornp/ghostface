@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {environment} from '../../environments/environment';
 
 @Component({
     selector: 'app-footer',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class FooterComponent {
+
+    currentVersion = environment.appVersion
 
 	constructor() { }
 }

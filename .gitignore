@@ -8,7 +8,7 @@ backend/src/main/resources/META-INF/
 ### Angular ###
 ## Angular ##
 # compiled output
-public/
+dist/
 tmp/
 app/**/*.js
 app/**/*.js.map
