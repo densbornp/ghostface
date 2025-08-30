@@ -5,9 +5,10 @@ import { CookieService } from '../services/cookie.service';
 
 
 @Component({
-  selector: 'app-cookie-modal',
-  templateUrl: './cookie-modal.component.html',
-  styleUrls: ['./cookie-modal.component.scss']
+    selector: 'app-cookie-modal',
+    templateUrl: './cookie-modal.component.html',
+    styleUrls: ['./cookie-modal.component.scss'],
+    standalone: false
 })
 export class CookieModalComponent {
 

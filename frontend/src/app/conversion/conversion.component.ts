@@ -8,7 +8,8 @@ import { ConversionService } from '../services/conversion.service';
 @Component({
     selector: 'app-conversion',
     templateUrl: './conversion.component.html',
-    styleUrls: ['./conversion.component.scss']
+    styleUrls: ['./conversion.component.scss'],
+    standalone: false
 })
 export class ConversionComponent implements OnInit {
 

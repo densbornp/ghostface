@@ -9,7 +9,7 @@ import { ConversionComponent } from './conversion/conversion.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HeroComponent } from './hero/hero.component';
 import { CookieModule } from 'ngx-cookie';
 import { CookieModalComponent } from './cookie-modal/cookie-modal.component';
@@ -19,31 +19,24 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { AlertModule } from 'ngx-bootstrap/alert';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    FaqComponent,
-    ContactComponent,
-    InfoComponent,
-    ConversionComponent,
-    FooterComponent,
-    HeaderComponent,
-    PageNotFoundComponent,
-    HeroComponent,
-    CookieModalComponent,
-    LandingPageComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    TabsModule,
-    TooltipModule,
-    AlertModule,
-    CookieModule.withOptions(),
-    ModalModule.forRoot()
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        FaqComponent,
+        ContactComponent,
+        InfoComponent,
+        ConversionComponent,
+        FooterComponent,
+        HeaderComponent,
+        PageNotFoundComponent,
+        HeroComponent,
+        CookieModalComponent,
+        LandingPageComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        TabsModule,
+        TooltipModule,
+        AlertModule,
+        CookieModule.withOptions(),
+        ModalModule.forRoot()], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }
